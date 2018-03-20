@@ -18,4 +18,10 @@ class Configs: public ofBaseApp {
         int anguloKinect;
         void ligaKinect();
         void desligaKinect();
+        ofxCvGrayscaleImage depthCam;
+        ofPixels depthPixels;
+        float depthMedia;
+        ofVec2f centroMassa;
+        void calculaMassa();
+
 };
