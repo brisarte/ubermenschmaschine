@@ -2,8 +2,11 @@
 
 void Configs::setup() {
     configs.setup();
-    anguloKinect = 0;
-    depthMedia = 0;
+    anguloKinect    = 0;
+    brilhoKinect    = 50;
+    contrasteKinect = 50;
+
+    depthMedia      = 0;
     depthCam.allocate(640,480);
 }
 
@@ -13,6 +16,7 @@ void Configs::update() {
         kinectGlobal.update();
         // Passa a imagem da câmera de profundidade para uma img
         depthCam.setFromPixels(kinectGlobal.getDepthPixels());
+        depthCam.brightnessContrast(brilhoKinect/100., contrasteKinect/100.);
         
         // Calcula centro de massa e depthMedia
         calculaMassa();
@@ -31,6 +35,8 @@ void Configs::draw() {
     if ( kinectGlobal.isConnected() ) {
         kinectGlobal.setCameraTiltAngle(anguloKinect);
         ImGui::SliderInt("angulo", &anguloKinect, -30, 30);
+        ImGui::SliderInt("brilho", &brilhoKinect, 0, 100);
+        ImGui::SliderInt("contraste", &contrasteKinect, 0, 100);
         if (ImGui::Button("Desliga Kinect")) { desligaKinect(); } 
     } else {
         if (ImGui::Button("Liga Kinect")) { ligaKinect(); } 
@@ -39,7 +45,7 @@ void Configs::draw() {
     ImGui::End();
 
     if ( kinectGlobal.isConnected() ) {
-        kinectGlobal.drawDepth(5, 5, 320, 240);
+        depthCam.draw(5, 5, 320, 240);
         ofSetColor( 255, 0, 255 );
         ofDrawCircle(centroMassa.x/2 + 5, centroMassa.y/2 + 5, 5);
         ofSetColor( 255, 255, 255 );

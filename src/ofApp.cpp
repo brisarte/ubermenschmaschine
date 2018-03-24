@@ -17,7 +17,7 @@ void ofApp::draw(){
     ofBackground(255, 0, 0);
     
     if ( configs->kinectGlobal.isConnected() ) {
-        configs->kinectGlobal.drawDepth( 0, 0, 1024, 768);
+        configs->depthCam.draw( 0, 0, 1024, 768);
     }
 
 }

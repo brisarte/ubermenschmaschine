@@ -15,7 +15,7 @@ class Configs: public ofBaseApp {
         ofxImGui::Gui configs;
 
         ofxKinect kinectGlobal;
-        int anguloKinect;
+        int anguloKinect, contrasteKinect, brilhoKinect;
         void ligaKinect();
         void desligaKinect();
         ofxCvGrayscaleImage depthCam;
