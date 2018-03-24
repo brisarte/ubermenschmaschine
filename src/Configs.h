@@ -2,8 +2,8 @@
 
 #include "ofxImGui.h"
 #include "ofMain.h"
-#include "ofxOpenCv.h"
-#include "ofxKinect.h"
+
+#include "KinectUtils.h"
 
 class Configs: public ofBaseApp {
     public: 
@@ -14,14 +14,5 @@ class Configs: public ofBaseApp {
 
         ofxImGui::Gui configs;
 
-        ofxKinect kinectGlobal;
-        int anguloKinect, contrasteKinect, brilhoKinect;
-        void ligaKinect();
-        void desligaKinect();
-        ofxCvGrayscaleImage depthCam;
-        ofPixels depthPixels;
-        float depthMedia;
-        ofVec2f centroMassa;
-        void calculaMassa();
-
+        KinectUtils ku;
 };

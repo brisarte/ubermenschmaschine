@@ -13,12 +13,10 @@ void ofApp::update(){
 
 //--------------------------------------------------------------
 void ofApp::draw(){
-
+    ofSetColor( 255, 255, 255 );
     ofBackground(255, 0, 0);
     
-    if ( configs->kinectGlobal.isConnected() ) {
-        configs->depthCam.draw( 0, 0, 1024, 768);
-    }
+    configs->ku.drawMiniatura( 0, 0, 1024, 768);
 
 }
 
