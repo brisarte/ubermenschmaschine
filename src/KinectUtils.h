@@ -18,10 +18,12 @@ class KinectUtils {
         ofxCvGrayscaleImage depthCam;
         // Variáveis de informação sobre a profundidade
         ofPixels depthPixels;
-        float depthAvg;
+        float depthAvg, depthTotal;
         ofVec2f centroMassa;
         void calculaMassa();
 
+        ofVideoPlayer videoDemo;
+        ofxCvColorImage imgVideo;
         // Interface Simples
         void drawGUI();
         void drawMiniatura(int x = 5,

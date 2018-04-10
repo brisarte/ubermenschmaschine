@@ -4,6 +4,7 @@
 #include "ofMain.h"
 
 #include "KinectUtils.h"
+#include "Cena.h"
 
 class Configs: public ofBaseApp {
     public: 
@@ -15,4 +16,19 @@ class Configs: public ofBaseApp {
         ofxImGui::Gui configs;
 
         KinectUtils ku;
+
+        vector<Cena*> cenas;
+        CenaEntrada* cenaEntrada; 
+        CenaAgua*    cenaAgua;
+        CenaRaizes*  cenaRaizes; 
+        /*
+            cenaBorboleta, 
+            cenaSol, 
+            cenaDoppel, 
+            cenaParticulas,
+            cenaVoid,
+            cenaQuadrados,
+            cenaUniverso;
+            */
+        float t0, t1, dt;
 };

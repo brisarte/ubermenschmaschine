@@ -8,16 +8,17 @@ void ofApp::setup(){
 
 //--------------------------------------------------------------
 void ofApp::update(){
-
+    ofEnableBlendMode(OF_BLENDMODE_ADD);
 }
 
 //--------------------------------------------------------------
 void ofApp::draw(){
-    ofSetColor( 255, 255, 255 );
-    ofBackground(255, 0, 0);
+    ofBackground(0, 0, 0);
     
-    configs->ku.drawMiniatura( 0, 0, 1024, 768);
-
+    for( int i = 0; i < configs->cenas.size(); i++ )
+    {
+        configs->cenas[i]->draw();
+    }
 }
 
 //--------------------------------------------------------------
