@@ -58,6 +58,7 @@ void KinectUtils::update() {
 }
 
 void KinectUtils::drawMiniatura(int x,int y,int w,int h) {
+    ofSetColor( 255, 255, 255 );
     // Desenha img com filtros aplicados
     depthCam.draw( x, y, w, h);
     // Desenha centro de massa
@@ -66,9 +67,16 @@ void KinectUtils::drawMiniatura(int x,int y,int w,int h) {
 }
 
 void KinectUtils::drawGUI() {
+    // Inicia a janela de infos
+    ImGui::SetNextWindowSize(ofVec2f(330, 50), ImGuiSetCond_FirstUseEver);
+    ImGui::Begin("Controles Kinect");
+    
+    // Exibe infos
+    ImGui::Text("%.1f FPS (%.3f ms/frame) ", ImGui::GetIO().Framerate, 1000.0f / ImGui::GetIO().Framerate);
     //Exibe infos
     ImGui::Text("Centro de Massa [x]:%.1f [y]:%.1f", centroMassa.x, centroMassa.y);
     ImGui::Text("Profundidade Média: %.1f", depthAvg);
+
     // Botões de liga e desliga do kinect
     if ( kinectGlobal.isConnected() ) {
         ImGui::SliderInt("angulo", &anguloKinect, -30, 30);
@@ -76,8 +84,14 @@ void KinectUtils::drawGUI() {
     } else {
         if (ImGui::Button("Liga Kinect")) { ligaKinect(); } 
     }
+
     ImGui::SliderInt("brilho", &brilhoKinect, 0, 100);
     ImGui::SliderInt("contraste", &contrasteKinect, 0, 100);
+
+    // Mostra miniatura e variaveis calculadas
+    this->drawMiniatura();
+
+    ImGui::End();
  }
 
 void KinectUtils::ligaKinect() {

@@ -5,10 +5,10 @@
 #include "KinectUtils.h"
 
 class Cena {
-
     public:
         void setup(KinectUtils *kutils, bool ativo = true);
         virtual void update( float dt = 0 );
+        virtual void drawConfigs();
 
         // Calcula se a cena está ativa e se deve trocar
         void atualizaTransicoes( float dt = 0 );
@@ -41,6 +41,7 @@ class CenaEntrada : public Cena {
         void update( float dt );
         void drawAtivo();
         void drawTransicao();
+        void drawConfigs();
 };
 
 class CenaAgua : public Cena {
@@ -50,8 +51,11 @@ class CenaAgua : public Cena {
         void update( float dt );
         void drawAtivo();
         void drawTransicao();
+        void drawConfigs();
 
         ofImage imgAgua;
+        int qtdBlur;
+        ofShader shaderKinect;
 };
 
 class CenaRaizes : public Cena {
@@ -61,6 +65,7 @@ class CenaRaizes : public Cena {
         void update( float dt );
         void drawAtivo();
         void drawTransicao();
+        void drawConfigs();
 
         ofVideoPlayer videoRaiz;
 };

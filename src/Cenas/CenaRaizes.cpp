@@ -53,3 +53,12 @@ void CenaRaizes::drawTransicao() {
     fboCena.draw(0,0,1024,768);
 }
 
+void CenaRaizes::drawConfigs() {
+    // Inicia a janela de configs
+    ImGui::SetNextWindowSize(ofVec2f(330, 250), ImGuiSetCond_FirstUseEver);
+    ImGui::Begin("Raízes");
+
+    ImGui::SliderFloat("duração", &tempoMaximo, 0, 120);
+
+    ImGui::End();
+}

@@ -20,7 +20,7 @@ uniform float specArray[N];
 
 //blurring
 void main(){
-    vec2 pos = gl_TexCoord[0].st;     
+    vec2 pos = gl_TexCoord[3].st;     
     // Imagem da camera
     vec4 corKinect = texture2DRect(kinect, pos);
     vec4 corLateral;

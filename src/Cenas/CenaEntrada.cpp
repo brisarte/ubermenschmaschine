@@ -2,8 +2,8 @@
 
 CenaEntrada::CenaEntrada( KinectUtils *kutils, bool ativo ) {
     setup(kutils, ativo);
-    tempoMaximo = 5;
-    tempoTransicao = 3;
+    tempoMaximo = 1;
+    tempoTransicao = 1;
     shaderCena.load("../data/vertexdummy.c","../data/silhuetaInvertida.c");
 }
 
@@ -41,3 +41,12 @@ void CenaEntrada::drawTransicao() {
     fboCena.draw(0,0,1024,768);
 }
 
+void CenaEntrada::drawConfigs() {
+    // Inicia a janela de configs
+    ImGui::SetNextWindowSize(ofVec2f(330, 250), ImGuiSetCond_FirstUseEver);
+    ImGui::Begin("Entrada");
+
+    ImGui::SliderFloat("duração", &tempoMaximo, 0, 120);
+
+    ImGui::End();
+}

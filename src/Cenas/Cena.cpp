@@ -23,6 +23,8 @@ void Cena::atualizaTransicoes( float dt ) {
 
 void Cena::update( float dt ) {}
 
+void Cena::drawConfigs() {}
+
 void Cena::draw() {
     if(active) {
         if(!inTransition) {

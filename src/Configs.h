@@ -31,4 +31,8 @@ class Configs: public ofBaseApp {
             cenaUniverso;
             */
         float t0, t1, dt;
+
+        int cenaAtual;
+        void proximaCena(int i);
+        void voltaCena();
 };
