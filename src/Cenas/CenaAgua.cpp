@@ -23,8 +23,8 @@ void CenaAgua::filtraImg() {
     ofSetColor(255,255,255);
     shaderCena.begin();
     shaderCena.setUniform1f( "iTime", timeElapsed );
-    shaderCena.setUniformTexture( "agua",imgAgua.getTextureReference(), 1);
-//    ku->depthCam.draw(0,0,1024,768);
+    shaderCena.setUniformTexture( "agua",imgAgua.getTexture(), 1);
+    ku->depthCam.draw(0,0,1024,768);
     shaderCena.end();
     fboCena.end();
 }

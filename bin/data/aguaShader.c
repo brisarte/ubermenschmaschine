@@ -1,4 +1,4 @@
-#version 120
+#version 430 compatibility
 #extension GL_ARB_texture_rectangle : enable
 #extension GL_EXT_gpu_shader4 : enable
 
@@ -12,7 +12,6 @@ uniform float iTime;
 
 #define TILING_FACTOR 1.0
 #define MAX_ITER 8
-
 
 float waterHighlight(vec2 p, float time, float foaminess)
 {
@@ -102,7 +101,6 @@ void main()
         color = mix(water_color, color, clearness);
 
         gl_FragColor = ( gl_FragColor + vec4(color, 1.0) ) / 1.2;
-        gl_FragColor = vec4( 1,0,0,1);
 }
 
 
