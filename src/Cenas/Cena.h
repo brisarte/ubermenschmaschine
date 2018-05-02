@@ -53,9 +53,15 @@ class CenaAgua : public Cena {
         void drawTransicao();
         void drawConfigs();
 
-        ofImage imgAgua;
         int qtdBlur;
         ofShader shaderKinect;
+};
+
+
+class VideoRaiz {
+	public:
+		ofVideoPlayer video;
+		ofVec2f inicio;
 };
 
 class CenaRaizes : public Cena {
@@ -66,6 +72,8 @@ class CenaRaizes : public Cena {
         void drawAtivo();
         void drawTransicao();
         void drawConfigs();
+		void adicionaRaiz();
 
-        ofVideoPlayer videoRaiz;
+        vector<VideoRaiz*> videosRaiz;
 };
+

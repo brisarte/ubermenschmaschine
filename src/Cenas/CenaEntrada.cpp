@@ -2,7 +2,7 @@
 
 CenaEntrada::CenaEntrada( KinectUtils *kutils, bool ativo ) {
     setup(kutils, ativo);
-    tempoMaximo = 1;
+    tempoMaximo = 10;
     tempoTransicao = 1;
     shaderCena.load("../data/vertexdummy.c","../data/silhuetaInvertida.c");
 }
@@ -16,15 +16,15 @@ void CenaEntrada::update( float dt ) {
 
 void CenaEntrada::filtraImg() {
     fboCena.begin();
-    ofSetColor(255,255,255);
+    ofSetColor(155,25,5);
     ofBackground(0,0,0);
     // Normaliza depthAvg
     float nDepth = ku->depthAvg/255;
     if(nDepth == 0) nDepth = 0.01;
     float proporcao = 1/nDepth;
-    ku->depthCam.draw(ku->centroMassa.x,0,1024*proporcao,768*proporcao);
+    ku->depthCam.draw(ku->centroMassa.x-(512*proporcao),0,1024*proporcao,768*proporcao);
     shaderCena.begin();
-    ku->depthCam.draw(ku->centroMassa.x,384,512,384);
+    ku->depthCam.draw(ku->centroMassa.x-256,384,512,384);
     shaderCena.end();
     fboCena.end();
 }

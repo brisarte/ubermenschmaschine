@@ -12,10 +12,12 @@ class KinectUtils {
 
         ofxKinect kinectGlobal;
         int anguloKinect, contrasteKinect, brilhoKinect;
+		int rastro;
         // Funções de controle liga/desliga
         void ligaKinect();
         void desligaKinect();
         ofxCvGrayscaleImage depthCam;
+		ofxCvFloatImage floatDepth;
         // Variáveis de informação sobre a profundidade
         ofPixels depthPixels;
         float depthAvg, depthTotal;

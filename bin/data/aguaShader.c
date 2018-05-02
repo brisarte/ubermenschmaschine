@@ -2,6 +2,7 @@
 #extension GL_ARB_texture_rectangle : enable
 #extension GL_EXT_gpu_shader4 : enable
 
+uniform sampler2DRect kinect;     //it can be named in any way, GLSL just links it
 uniform float iTime;
 
 #define N (256)
@@ -15,9 +16,9 @@ uniform float iTime;
 
 float waterHighlight(vec2 p, float time, float foaminess)
 {
-    vec2 i = vec2(p);
-    float c = 0.0;
-    float foaminess_factor = mix(1.0, 6.0, foaminess);
+	vec2 i = vec2(p);
+	float c = 0.0;
+	float foaminess_factor = mix(1.0, 6.0, foaminess);
 	float inten = .005 * foaminess_factor;
 
 	for (int n = 0; n < MAX_ITER; n++) 
@@ -28,7 +29,7 @@ float waterHighlight(vec2 p, float time, float foaminess)
 	}
 	c = 0.2 + c / (inten * float(MAX_ITER));
 	c = 1.17-pow(c, 1.4);
-    c = pow(abs(c), 8.0);
+	c = pow(abs(c), 8.0);
 	return c / sqrt(foaminess_factor);
 }
 
@@ -36,43 +37,71 @@ float rayStrength(vec2 raySource, vec2 rayRefDirection, vec2 coord, float seedA,
 {
 	vec2 sourceToCoord = coord - raySource;
 	float cosAngle = dot(normalize(sourceToCoord), rayRefDirection);
-	
+
 	return clamp(
-		(0.45 + 0.15 * sin(cosAngle * seedA + iTime * speed)) +
-		(0.3 + 0.2 * cos(-cosAngle * seedB + iTime * speed)),
-		0.0, 1.0) *
+			(0.45 + 0.15 * sin(cosAngle * seedA + iTime * speed)) +
+			(0.3 + 0.2 * cos(-cosAngle * seedB + iTime * speed)),
+			0.0, 1.0) *
 		clamp((WIDTH - length(sourceToCoord)) / WIDTH, 0.5, 1.0);
 }
 
 void main()
 {
-	vec2 coord = gl_TexCoord[0].st;
-	
-	
+	vec2 pos = gl_TexCoord[0].st;
+
+	// Imagem da camera
+	vec4 corKinect = texture2DRect(kinect, pos);
+	vec4 corLateral;
+	vec2 direcaoAux;
+	// variavel para calcular contorno
+	vec2 direcao;
+	direcao.x = 0;
+	direcao.y = 0;
+	// Calcula contorno
+	for(int i = -3; i <=3; i++) {
+		for(int j = -3; j <=3; j++) {
+			if( i != 0 && j != 0) { // Não processa o do centro
+				direcaoAux = pos;
+				if(pos.x > 0 && pos.x < WIDTH) {
+					direcaoAux.x += i;
+					corLateral = texture2DRect(kinect, direcaoAux);
+					direcao.x += (direcaoAux.x - pos.x) * (corLateral.r + corLateral.g + corLateral.b)/3;
+				}
+				if(pos.y > 0 && pos.y < HEIGHT) {
+					direcaoAux.y += j;
+					corLateral = texture2DRect(kinect, direcaoAux);
+					direcao.y += (direcaoAux.y - pos.y) * corLateral.r;
+				}
+			}
+		}
+	}
+
+	vec2 coord = pos + direcao*2;
+
 	// Set the parameters of the sun rays
 	vec2 rayPos1 = vec2(WIDTH * 0.3, HEIGHT * -0.2);
 	vec2 rayRefDir1 = normalize(vec2(1.0, -0.116));
 	float raySeedA1 = 36.2214;
 	float raySeedB1 = 21.11349;
 	float raySpeed1 = 1.5;
-	
+
 	vec2 rayPos2 = vec2(WIDTH * sin(iTime/100), HEIGHT * -0.6);
 	vec2 rayRefDir2 = normalize(vec2(1.0, 0.241));
 	const float raySeedA2 = 22.39910;
 	const float raySeedB2 = 18.0234;
 	const float raySpeed2 = 1.1;
-	
+
 	// Calculate the colour of the sun rays on the current fragment
 	vec4 rays1 =
 		vec4(1.0, 1.0, 1.0, 1.0) *
 		rayStrength(rayPos1, rayRefDir1, coord, raySeedA1, raySeedB1, raySpeed1);
-	 
+
 	vec4 rays2 =
 		vec4(1.0, 1.0, 1.0, 1.0) *
 		rayStrength(rayPos2, rayRefDir2, coord, raySeedA2, raySeedB2, raySpeed2);
-	
+
 	gl_FragColor = rays1 * 0.5 + rays2 * 0.4;
-	
+
 	// Attenuate brightness towards the bottom, simulating light-loss due to depth.
 	// Give the whole thing a blue-green tinge as well.
 	float brightness = 1.0 - (coord.y / HEIGHT);
@@ -82,25 +111,25 @@ void main()
 
 
 
-        // Desenha reflexos na agua
+	// Desenha reflexos na agua
 	float time = iTime * 0.1;
 	vec2 uv = coord.xy / vec2( HEIGHT, WIDTH );
 	vec2 uv_square = vec2(uv.x * WIDTH / HEIGHT, uv.y);
 
-        float foaminess = smoothstep(0.4, 1.8, .6);
-        float clearness = 0.1 + 0.9*smoothstep(0.1, 1., .8);
+	float foaminess = smoothstep(0.4, 1.8, .6);
+	float clearness = 0.1 + 0.9*smoothstep(0.1, 1., .8);
 
-        vec2 p = mod(uv_square*TAU*TILING_FACTOR, TAU)-250.0;
+	vec2 p = mod(uv_square*TAU*TILING_FACTOR, TAU)-250.0;
 
-        float c = waterHighlight(p, time, foaminess);
+	float c = waterHighlight(p, time, foaminess);
 
-        vec3 water_color = vec3(0.1, 0.3, 0.5);
-        vec3 color = vec3(c);
-        color = clamp(color + water_color, 0.0, 1.0);
+	vec3 water_color = vec3(0.1, 0.3, 0.5);
+	vec3 color = vec3(c);
+	color = clamp(color + water_color, 0.0, 1.0);
 
-        color = mix(water_color, color, clearness);
+	color = mix(water_color, color, clearness);
 
-        gl_FragColor = ( gl_FragColor + vec4(color, 1.0) ) / 1.2;
+	gl_FragColor = ( gl_FragColor + vec4(color, 1.0) ) / 1.2;
 }
 
 

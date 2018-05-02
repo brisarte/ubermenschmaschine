@@ -1,12 +1,12 @@
 #include "Cena.h"
 
 CenaAgua::CenaAgua( KinectUtils *kutils, bool ativo ) {
+	kutils->rastro = 20;
     setup(kutils, ativo);
-    tempoMaximo = 5;
-    tempoTransicao = 3;
-    qtdBlur = 5;
+    tempoMaximo = 20;
+    tempoTransicao = 1;
+    qtdBlur = 15;
     shaderCena.load("../data/vertexdummy.c","../data/aguaShader.c");
-    imgAgua.load("../data/agua.jpg");
 }
 
 void CenaAgua::update( float dt ) {
@@ -23,7 +23,6 @@ void CenaAgua::filtraImg() {
     ofSetColor(255,255,255);
     shaderCena.begin();
     shaderCena.setUniform1f( "iTime", timeElapsed );
-    shaderCena.setUniformTexture( "agua",imgAgua.getTexture(), 1);
     ku->depthCam.draw(0,0,1024,768);
     shaderCena.end();
     fboCena.end();
