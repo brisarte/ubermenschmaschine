@@ -1,0 +1,8 @@
+# makefiles
+Makefile
+addons.make
+config.make
+# compiledfiles
+bin/libs/
+bin/ubermenschmaschine
+obj/
