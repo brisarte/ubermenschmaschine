@@ -12,7 +12,7 @@ CenaAgua::CenaAgua( KinectUtils *kutils, bool ativo ) {
 void CenaAgua::update( float dt ) {
     if( active ) {
         atualizaTransicoes(dt);
-        ku->depthCam.blur(qtdBlur);
+        ku->blur = qtdBlur;
         filtraImg();
     }
 }

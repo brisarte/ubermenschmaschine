@@ -28,6 +28,7 @@ void KinectUtils::setup() {
 		brilhoKinect    = 50;
 		contrasteKinect = 50;
 		rastro = 0;
+        blur = 0;
 
 		depthAvg = 0; //Média do brilho dos pixels de profundidade
 
@@ -55,16 +56,19 @@ void KinectUtils::update() {
 		depthCam.brightnessContrast(brilhoKinect/100., contrasteKinect/100.);
 
 
-		//Aplica o Rastro
+        // Passa pixel a pixel processando por uma floatImg
 		ofFloatPixels & pixF = floatDepth.getFloatPixelsRef();
 		ofPixels & pixA = depthCam.getPixels();
 		int numPixels = pixF.size();
 		for (int i = 0; i < numPixels; i++) {
-				pixF[i] = pixF[i] *((float)rastro/100) + pixA[i] * (1 - (float)rastro/100);
+            // Aplica o Rastro
+			pixF[i] = pixF[i] *((float)rastro/100) + (float)pixA[i]/255 * (1. - (float)rastro/100);
 		}
 		floatDepth.flagImageChanged();
 
 		depthCam = floatDepth;
+
+        depthCam.blur(blur);
 		// Aplica controles de brilho e contraste
 		// Calcula centro de massa e depthAvg
 		calculaMassa();
@@ -101,6 +105,7 @@ void KinectUtils::drawGUI() {
 		ImGui::SliderInt("brilho", &brilhoKinect, 0, 100);
 		ImGui::SliderInt("contraste", &contrasteKinect, 0, 100);
 		ImGui::SliderInt("rastro", &rastro, 0, 100);
+        ImGui::SliderInt("blur", &blur, 0, 120);
 
 		// Mostra miniatura e variaveis calculadas
 		this->drawMiniatura();

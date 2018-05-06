@@ -35,4 +35,5 @@ class Configs: public ofBaseApp {
         int cenaAtual;
         void proximaCena(int i);
         void voltaCena(int i);
+        void resetCena(int i);
 };

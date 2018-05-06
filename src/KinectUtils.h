@@ -12,7 +12,7 @@ class KinectUtils {
 
         ofxKinect kinectGlobal;
         int anguloKinect, contrasteKinect, brilhoKinect;
-		int rastro;
+		int rastro, blur;
         // Funções de controle liga/desliga
         void ligaKinect();
         void desligaKinect();

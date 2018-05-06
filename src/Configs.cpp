@@ -48,10 +48,10 @@ void Configs::draw() {
     ImGui::SetNextWindowSize(ofVec2f(330, 50), ImGuiSetCond_FirstUseEver);
     ImGui::Begin("Controles  Gerais");
 
-    ImGui::Text("Cena Atual: %.1f", cenaAtual);
+    ImGui::Text("Cena Atual: %i", cenaAtual);
     if (ImGui::Button("Volta Cena")) { voltaCena(cenaAtual); } 
     if (ImGui::Button("Avança Cena")) { proximaCena(cenaAtual); } 
-
+    if (ImGui::Button("Reinicia Cena")) { resetCena(cenaAtual); } 
     ImGui::End();
 
     // Exibe infos e controles do kinect
@@ -92,4 +92,8 @@ void Configs::voltaCena(int i) {
     this->cenas[prox]->setAtivo(true);
 
     this->cenaAtual = prox;
+}
+
+void Configs::resetCena(int i) {
+    cenas[i]->resetTimer();
 }
