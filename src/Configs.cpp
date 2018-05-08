@@ -49,6 +49,7 @@ void Configs::draw() {
     ImGui::Begin("Controles  Gerais");
 
     ImGui::Text("Cena Atual: %i", cenaAtual);
+    ImGui::Text("Tempo decorrido: %.1f", cenas[cenaAtual]->timeElapsed);
     if (ImGui::Button("Volta Cena")) { voltaCena(cenaAtual); } 
     if (ImGui::Button("Avança Cena")) { proximaCena(cenaAtual); } 
     if (ImGui::Button("Reinicia Cena")) { resetCena(cenaAtual); } 

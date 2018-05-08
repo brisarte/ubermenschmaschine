@@ -42,6 +42,10 @@ class CenaEntrada : public Cena {
         void drawAtivo();
         void drawTransicao();
         void drawConfigs();
+        
+        ofShader shaderFiltraImg;
+        ofFbo fboCarne;
+        ofImage imgCarne;
 };
 
 class CenaAgua : public Cena {

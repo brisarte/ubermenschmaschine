@@ -6,3 +6,6 @@ config.make
 bin/libs/
 bin/ubermenschmaschine
 obj/
+
+# vim files
+.*.swp

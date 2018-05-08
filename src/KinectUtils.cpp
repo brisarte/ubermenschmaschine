@@ -68,7 +68,9 @@ void KinectUtils::update() {
 
 		depthCam = floatDepth;
 
-        depthCam.blur(blur);
+        if(blur > 0) {
+            depthCam.blur(blur);
+        }
 		// Aplica controles de brilho e contraste
 		// Calcula centro de massa e depthAvg
 		calculaMassa();
