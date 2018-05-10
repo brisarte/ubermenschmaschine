@@ -81,3 +81,46 @@ class CenaRaizes : public Cena {
         vector<VideoRaiz*> videosRaiz;
 };
 
+class CenaBorboleta : public Cena {
+    public:
+        CenaBorboleta(KinectUtils *kutils, bool ativo = true);
+        void filtraImg();
+        void update( float dt );
+        void drawAtivo();
+        void drawTransicao();
+        void drawConfigs();
+};
+
+class CenaSol : public Cena {
+    public:
+        CenaSol(KinectUtils *kutils, bool ativo = true);
+        void filtraImg();
+        void update( float dt );
+        void drawAtivo();
+        void drawTransicao();
+        void drawConfigs();
+};
+
+class CenaSilhueta : public Cena {
+    public:
+        CenaSilhueta(KinectUtils *kutils, bool ativo = true);
+        void filtraImg();
+        void update( float dt );
+        void drawAtivo();
+        void drawTransicao();
+        void drawConfigs();
+};
+
+
+class CenaUniverso : public Cena {
+    public:
+        CenaUniverso(KinectUtils *kutils, bool ativo = true);
+        void filtraImg();
+        void update( float dt );
+        void drawAtivo();
+        void drawTransicao();
+        void drawConfigs();
+
+        ofVideoPlayer videoUniverso;
+};
+

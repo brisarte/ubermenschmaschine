@@ -6,14 +6,18 @@ void Configs::setup() {
     // Inicia a GUI
     configs.setup();
     // Cria cenas que serão exibidas
-    cenaEntrada = new CenaEntrada(&ku, true);
-    cenaAgua    = new CenaAgua(&ku, false);
-    cenaRaizes  = new CenaRaizes(&ku, false);
+    cenaEntrada     = new CenaEntrada(&ku, true);
+    cenaAgua        = new CenaAgua(&ku, false);
+    cenaRaizes      = new CenaRaizes(&ku, false);
+    cenaSilhueta    = new CenaSilhueta(&ku, false);
+    cenaUniverso    = new CenaUniverso(&ku, false);
 
     // Adiciona cenas
     cenas.push_back(cenaEntrada);
     cenas.push_back(cenaAgua);
     cenas.push_back(cenaRaizes);
+    cenas.push_back(cenaSilhueta);
+    cenas.push_back(cenaUniverso);
 
     cenaAtual = 0;
 

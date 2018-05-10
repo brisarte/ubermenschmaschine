@@ -17,18 +17,18 @@ class Configs: public ofBaseApp {
 
         KinectUtils ku;
 
-        vector<Cena*> cenas;
-        CenaEntrada* cenaEntrada; 
-        CenaAgua*    cenaAgua;
-        CenaRaizes*  cenaRaizes; 
+        vector<Cena*>   cenas;
+        CenaEntrada*    cenaEntrada; 
+        CenaAgua*       cenaAgua;
+        CenaRaizes*     cenaRaizes; 
+        CenaBorboleta*  cenaBorboleta;
+        CenaSol*        cenaSol;
+        CenaSilhueta*   cenaSilhueta;
+        CenaUniverso*   cenaUniverso;
         /*
-            cenaBorboleta, 
-            cenaSol, 
-            cenaDoppel, 
             cenaParticulas,
             cenaVoid,
             cenaQuadrados,
-            cenaUniverso;
             */
         float t0, t1, dt;
 
