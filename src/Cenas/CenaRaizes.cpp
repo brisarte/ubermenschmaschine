@@ -11,27 +11,27 @@ void CenaRaizes::update( float dt ) {
     if( active ) {
         atualizaTransicoes(dt);
 
-		for( int i = 0; i < videosRaiz.size(); i++ ) {
-        	if( videosRaiz[i]->video.isLoaded() && active )  {
-            	videosRaiz[i]->video.update();
-        	}
-		}
+        for( int i = 0; i < videosRaiz.size(); i++ ) {
+            if( videosRaiz[i]->video.isLoaded() && active )  {
+                videosRaiz[i]->video.update();
+            }
+        }
 
-		for(int i = 0; i < 10; i++) {
-				if( active && timeElapsed > i && videosRaiz.size() < i+1 ) {
-						adicionaRaiz();
-				}
-		}
+        for(int i = 0; i < 10; i++) {
+            if( active && timeElapsed > i && videosRaiz.size() < i+1 ) {
+                adicionaRaiz();
+            }
+        }
         filtraImg();
     }
 }
 
 void CenaRaizes::adicionaRaiz() {
-		VideoRaiz* videoRaiz = new VideoRaiz();
-		videoRaiz->video.load("../data/raiz.mp4");
-		videoRaiz->video.play();
-		videoRaiz->inicio.set( ofRandom( -100, 100), 0 );
-		videosRaiz.push_back(videoRaiz);
+    VideoRaiz* videoRaiz = new VideoRaiz();
+    videoRaiz->video.load("../data/raiz.mp4");
+    videoRaiz->video.play();
+    videoRaiz->inicio.set( ofRandom( -100, 100), 0 );
+    videosRaiz.push_back(videoRaiz);
 }
 
 void CenaRaizes::filtraImg() {
@@ -42,13 +42,13 @@ void CenaRaizes::filtraImg() {
     ku->depthCam.draw(0,0,1024,768);
     shaderCena.begin();
     ofSetColor(255,255,255);
-	//Desenha Raizes
-	for( int i = videosRaiz.size()-1; i >= 0; i-- )
-	{
-		if( videosRaiz[i]->video.isLoaded() && active )  {
-			videosRaiz[i]->video.draw(ku->centroMassa.x - 422 + videosRaiz[i]->inicio.x, i*(-50) + videosRaiz[i]->inicio.y, 1024, 771);
-		}
-	}
+    //Desenha Raizes
+    for( int i = videosRaiz.size()-1; i >= 0; i-- )
+    {
+        if( videosRaiz[i]->video.isLoaded() && active )  {
+            videosRaiz[i]->video.draw(ku->centroMassa.x - 422 + videosRaiz[i]->inicio.x, i*(-50) + videosRaiz[i]->inicio.y, 1024, 771);
+        }
+    }
     shaderCena.end();
     ofSetColor(30,55,150);
     ofDrawCircle( ku->centroMassa.x/640 * 1024, ku->centroMassa.y/480 * 768, 6);

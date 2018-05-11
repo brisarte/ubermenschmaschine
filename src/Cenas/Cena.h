@@ -122,5 +122,6 @@ class CenaUniverso : public Cena {
         void drawConfigs();
 
         ofVideoPlayer videoUniverso;
+        ofFbo fboUniverso;
 };
 

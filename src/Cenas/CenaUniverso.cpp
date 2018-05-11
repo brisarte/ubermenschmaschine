@@ -4,7 +4,11 @@ CenaUniverso::CenaUniverso( KinectUtils *kutils, bool ativo ) {
     setup(kutils, ativo);
     tempoMaximo = 5;
     tempoTransicao = 0.1;
-    shaderCena.load("../data/vertexdummy.c","../data/blackAsAlpha.c");
+    shaderCena.load("../data/vertexdummy.c","../data/filterTexture.c");
+
+    fboUniverso.allocate(1024, 768);
+    videoUniverso.load("../data/universo.mp4");
+    videoUniverso.play();
 }
 
 void CenaUniverso::update( float dt ) {
@@ -15,12 +19,17 @@ void CenaUniverso::update( float dt ) {
 }
 
 void CenaUniverso::filtraImg() {
+    videoUniverso.update();
+    fboUniverso.begin();
+    videoUniverso.draw(0,0,1024,768);
+    fboUniverso.end();
+
     fboCena.begin();
     ofClear(0,0,0, 0);
-    ofSetColor(250,20,250);
-    ku->depthCam.draw(0,0,1024,768);
-    shaderCena.begin();
     ofSetColor(255,255,255);
+    shaderCena.begin();
+    shaderCena.setUniformTexture("texture1", fboUniverso.getTextureReference(), 1);
+    ku->depthCam.draw(0,0,1024,768);
     shaderCena.end();
     fboCena.end();
 }
