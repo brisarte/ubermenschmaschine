@@ -12,6 +12,8 @@ CenaUniverso::CenaUniverso( KinectUtils *kutils, bool ativo ) {
 }
 
 void CenaUniverso::update( float dt ) {
+
+    ofEnableBlendMode(OF_BLENDMODE_ALPHA);
     if( active ) {
         atualizaTransicoes(dt);
         filtraImg();
@@ -19,18 +21,23 @@ void CenaUniverso::update( float dt ) {
 }
 
 void CenaUniverso::filtraImg() {
+    ofSetColor(255,255,255);
     videoUniverso.update();
     fboUniverso.begin();
+    ofClear(0,0,0, 0);
     videoUniverso.draw(0,0,1024,768);
     fboUniverso.end();
 
+    ofSetColor(255,255,255);
     fboCena.begin();
     ofClear(0,0,0, 0);
     ofSetColor(255,255,255);
     shaderCena.begin();
     shaderCena.setUniformTexture("texture1", fboUniverso.getTextureReference(), 1);
-    ku->depthCam.draw(0,0,1024,768);
+    ofSetColor(255,255,255);
+    ku->drawImg();
     shaderCena.end();
+
     fboCena.end();
 }
 

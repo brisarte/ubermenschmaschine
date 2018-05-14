@@ -18,7 +18,7 @@ void CenaSilhueta::filtraImg() {
     fboCena.begin();
     ofClear(0,0,0, 0);
     ofSetColor(150,220,0);
-    ku->depthCam.draw(0,0,1024,768);
+    ku->drawImg();
     shaderCena.begin();
     ofSetColor(255,255,255);
     shaderCena.end();

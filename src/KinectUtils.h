@@ -18,6 +18,10 @@ class KinectUtils {
         void desligaKinect();
         ofxCvGrayscaleImage depthCam;
 		ofxCvFloatImage floatDepth;
+
+        ofFbo fboImgCam;
+        void drawImg();
+
         // Variáveis de informação sobre a profundidade
         ofPixels depthPixels;
         float depthAvg, depthTotal;

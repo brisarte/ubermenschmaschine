@@ -37,6 +37,18 @@ void KinectUtils::setup() {
 		floatDepth.allocate(640,480);
 		videoDemo.load("../data/depthdance.mp4");
 		videoDemo.play();
+
+        fboImgCam.allocate(1024,768);
+}
+
+void KinectUtils::drawImg() {
+    ofSetColor(255,255,255);
+    fboImgCam.begin();
+    ofClear(0,0,0,0);
+    depthCam.draw(0,0,1024,768);
+    fboImgCam.end();
+
+    fboImgCam.draw(0,0,1024,768);
 }
 
 void KinectUtils::update() {
@@ -79,6 +91,7 @@ void KinectUtils::update() {
 void KinectUtils::drawMiniatura(int x,int y,int w,int h) {
 		ofSetColor( 255, 255, 255 );
 		// Desenha img com filtros aplicados
+        drawImg();
 		depthCam.draw( x, y, w, h);
 		// Desenha centro de massa
 		ofSetColor( 255, 0, 255 );

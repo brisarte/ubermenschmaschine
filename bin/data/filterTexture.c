@@ -20,11 +20,13 @@ void main(){
     vec4 corTexture =  texture2DRect(texture1, pos);
     vec4 color;
 
+    /*
     if(corKinect.r > 0.5) {
         color = corTexture;
     } else {
         color.a = 0;
     }
+    */
     color.r = corTexture.r;
     color.g = corTexture.g;
     color.b = corTexture.b;
