@@ -22,6 +22,7 @@ class Cena {
         void setTransicao( bool tr = true );
         void setAtivo( bool at = true );
         void resetTimer();
+        void desligaCena( bool transition = false );
         KinectUtils *ku;
         ofFbo fboCena;
         ofShader shaderCena;
@@ -46,6 +47,8 @@ class CenaEntrada : public Cena {
         ofShader shaderFiltraImg;
         ofFbo fboCarne;
         ofImage imgCarne;
+
+        int massaMaxima;
 };
 
 class CenaAgua : public Cena {

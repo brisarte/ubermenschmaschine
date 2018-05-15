@@ -55,3 +55,10 @@ void Cena::setAtivo( bool at ) {
 void Cena::resetTimer() {
     timeElapsed = 0;
 }
+
+
+void Cena::desligaCena( bool transition ) {
+    active = false;
+    inTransition = transition;
+    resetTimer();
+}

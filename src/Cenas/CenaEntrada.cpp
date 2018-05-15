@@ -4,6 +4,7 @@ CenaEntrada::CenaEntrada( KinectUtils *kutils, bool ativo ) {
     setup(kutils, ativo);
     tempoMaximo = 10;
     tempoTransicao = 1;
+    massaMaxima = 50000;
     shaderCena.load("../data/vertexdummy.c","../data/silhuetaInvertida.c");
     shaderFiltraImg.load("../data/vertexdummy.c","../data/filterTexture.c");
     imgCarne.load("../data/carne.png");
@@ -14,20 +15,25 @@ void CenaEntrada::update( float dt ) {
     if( active ) {
         atualizaTransicoes(dt);
         filtraImg();
+        if(ku->depthTotal > massaMaxima) {
+            desligaCena(true);
+        }
     }
 }
 
 void CenaEntrada::filtraImg() {
+    ofSetColor(255,255,255);
     fboCarne.begin();
+    ofClear(0,0,0, 0);
     imgCarne.draw(0,0,1024,768);
     fboCarne.end();
 
-    fboCena.begin();
     ofSetColor(255,255,255);
+    fboCena.begin();
+    ofClear(0,0,0 ,0);
     ofBackground(0,0,0);
   
-    // Normaliza depthAvg
-    float nDepth = ku->depthAvg/255;
+    float nDepth = ku->depthAvg;
     if(nDepth == 0) nDepth = 0.01;
     float proporcao = 1/nDepth;
 
@@ -63,6 +69,7 @@ void CenaEntrada::drawConfigs() {
     ImGui::Begin("Entrada");
 
     ImGui::SliderFloat("duração", &tempoMaximo, 0, 120);
+    ImGui::SliderInt("massa máxima", &massaMaxima, 0, 150000);
 
     ImGui::End();
 }

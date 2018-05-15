@@ -33,7 +33,7 @@ class Configs: public ofBaseApp {
         float t0, t1, dt;
 
         int cenaAtual;
-        void proximaCena(int i);
-        void voltaCena(int i);
+        void proximaCena();
+        void voltaCena();
         void resetCena(int i);
 };

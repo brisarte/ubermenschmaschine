@@ -36,8 +36,7 @@ void Configs::update() {
         cenas[i]->update(dt);
         // Passa pra próxima caso tenha acabado a atual
         if(!cenas[i]->active && cenas[i]->inTransition) {
-            cenaAtual = i;
-            this->proximaCena(cenaAtual);
+            this->proximaCena();
         }
     }
 
@@ -54,8 +53,8 @@ void Configs::draw() {
 
     ImGui::Text("Cena Atual: %i", cenaAtual);
     ImGui::Text("Tempo decorrido: %.1f", cenas[cenaAtual]->timeElapsed);
-    if (ImGui::Button("Volta Cena")) { voltaCena(cenaAtual); } 
-    if (ImGui::Button("Avança Cena")) { proximaCena(cenaAtual); } 
+    if (ImGui::Button("Volta Cena")) { voltaCena(); } 
+    if (ImGui::Button("Avança Cena")) { proximaCena(); } 
     if (ImGui::Button("Reinicia Cena")) { resetCena(cenaAtual); } 
     ImGui::End();
 
@@ -73,30 +72,26 @@ void Configs::draw() {
 void Configs::mousePressed(int x, int y, int iButton) {
 }
 
-void Configs::proximaCena(int i) {
-    //Força que a centa atual acabe caso ainda nao tenha acabado
-    cenas[i]->active = false;
-    cenas[i]->inTransition = false;
-    cenas[i]->resetTimer();
+void Configs::proximaCena() {
+    //Força que a cena atual acabe caso ainda nao tenha acabado
+    cenas[cenaAtual]->desligaCena();
 
     // proxima cena
-    int prox = i == this->cenas.size()-1 ? 0 : i + 1;
+    int prox = cenaAtual == this->cenas.size()-1 ? 0 : cenaAtual + 1;
     this->cenas[prox]->setAtivo(true);
 
     this->cenaAtual = prox;
 }
 
-void Configs::voltaCena(int i) {
+void Configs::voltaCena() {
     //Força que a centa atual acabe caso ainda nao tenha acabado
-    cenas[i]->active = false;
-    cenas[i]->inTransition = false;
-    cenas[i]->resetTimer();
+    cenas[cenaAtual]->desligaCena();
 
-    // proxima cena
-    int prox = i == 0 ? this->cenas.size()-1 : i - 1;
-    this->cenas[prox]->setAtivo(true);
+    // cena anterior
+    int anterior = cenaAtual == 0 ? this->cenas.size()-1 : cenaAtual - 1;
+    this->cenas[anterior]->setAtivo(true);
 
-    this->cenaAtual = prox;
+    this->cenaAtual = anterior;
 }
 
 void Configs::resetCena(int i) {
