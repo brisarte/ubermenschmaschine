@@ -49,6 +49,7 @@ class CenaEntrada : public Cena {
         ofImage imgCarne;
 
         int massaMaxima;
+        float nivelProporcao;
 };
 
 class CenaAgua : public Cena {

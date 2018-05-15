@@ -9,6 +9,7 @@ CenaEntrada::CenaEntrada( KinectUtils *kutils, bool ativo ) {
     shaderFiltraImg.load("../data/vertexdummy.c","../data/filterTexture.c");
     imgCarne.load("../data/carne.png");
     fboCarne.allocate(1024, 768);
+    nivelProporcao = 3;
 }
 
 void CenaEntrada::update( float dt ) {
@@ -33,19 +34,20 @@ void CenaEntrada::filtraImg() {
     ofClear(0,0,0 ,0);
     ofBackground(0,0,0);
   
-    float nDepth = ku->depthAvg;
+    float nDepth = ku->depthTotal;
     if(nDepth == 0) nDepth = 0.01;
-    float proporcao = 1/nDepth;
+    float proporcao = 1-(nDepth/massaMaxima);
+    proporcao *= nivelProporcao;
 
     // Desenha imagem com textura
     shaderFiltraImg.begin();
     shaderFiltraImg.setUniformTexture("texture1", fboCarne.getTextureReference(), 1);
-    ku->depthCam.draw(ku->centroMassa.x-(512*proporcao),0,1024*proporcao,768*proporcao);
+    ku->depthCam.draw(ku->centroMassa.x-(512*proporcao),768*(1-proporcao),1024*proporcao,768*proporcao);
     shaderFiltraImg.end();
 
     // Desenha imagem menor
     shaderCena.begin();
-    ku->depthCam.draw(ku->centroMassa.x-256,384,512,384);
+    ku->depthCam.draw(ku->centroMassa.x-512,0,1024,768);
     shaderCena.end();
     
     fboCena.end();
@@ -70,6 +72,7 @@ void CenaEntrada::drawConfigs() {
 
     ImGui::SliderFloat("duração", &tempoMaximo, 0, 120);
     ImGui::SliderInt("massa máxima", &massaMaxima, 0, 150000);
+    ImGui::SliderFloat("nível proporção", &nivelProporcao, 0, 5);
 
     ImGui::End();
 }
