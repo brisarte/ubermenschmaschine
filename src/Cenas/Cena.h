@@ -33,6 +33,7 @@ class Cena {
         float timeStartTransicao;
         float tempoMaximo;
         float tempoTransicao;
+        int qtdBlur;
 };
 
 class CenaEntrada : public Cena {
@@ -48,6 +49,7 @@ class CenaEntrada : public Cena {
         ofFbo fboCarne;
         ofImage imgCarne;
 
+        ofPoint centroNorm;
         int massaMaxima;
         float nivelProporcao;
 };
@@ -61,7 +63,6 @@ class CenaAgua : public Cena {
         void drawTransicao();
         void drawConfigs();
 
-        int qtdBlur;
         ofShader shaderKinect;
 };
 

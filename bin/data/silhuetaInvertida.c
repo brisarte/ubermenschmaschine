@@ -17,15 +17,10 @@ void main(){
 
     vec4 color;
 
-    color = color0;  
-
-    if ( (color.r + color.g + color.b) < 0.2 ) {
-        color.a = 0;
-    } else {
-        color.r = 1 - color.r;
-        color.g = 1 - color.g;
-        color.b = 1 - color.b;
-    }
+    color.a = (color0.r + color0.g + color0.b)/3;
+    color.r = 0;
+    color.g = 0;
+    color.b = 0;
 
     gl_FragColor = color;
 }
