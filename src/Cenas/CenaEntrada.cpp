@@ -2,11 +2,11 @@
 
 CenaEntrada::CenaEntrada( KinectUtils *kutils, bool ativo ) {
     setup(kutils, ativo);
-    tempoMaximo = 10;
-    tempoTransicao = 1;
-    qtdBlur = 0;
+    tempoMaximo = 30;
+    tempoTransicao = 0.2;
+    qtdRastro = 80;
 
-    massaMaxima = 50000;
+    massaMaxima = 100000;
     shaderCena.load("../data/vertexdummy.c","../data/silhuetaInvertida.c");
     shaderFiltraImg.load("../data/vertexdummy.c","../data/filterTexture.c");
     imgCarne.load("../data/carne.png");
@@ -77,9 +77,10 @@ void CenaEntrada::drawConfigs() {
     ImGui::Text("Centro de Massa [x]:%.1f [y]:%.1f", centroNorm.x, centroNorm.y);
     ImGui::SliderFloat("duração", &tempoMaximo, 0, 120);
     ImGui::SliderInt("blur", &qtdBlur, 0, 100);
-    ImGui::SliderFloat("nível proporção", &nivelProporcao, 0, 5);
+    ImGui::SliderInt("rastro", &qtdRastro, 0, 100);
+
+    ImGui::SliderFloat("proporção", &nivelProporcao, 0, 5);
     ImGui::SliderInt("massa máxima", &massaMaxima, 0, 150000);
-    ImGui::SliderFloat("nível proporção", &nivelProporcao, 0, 5);
 
     ImGui::End();
 }

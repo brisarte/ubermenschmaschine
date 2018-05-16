@@ -7,10 +7,14 @@ void Cena::setup( KinectUtils *kutils, bool ativo) {
     setAtivo(ativo);
     inTransition = false;
     timeElapsed = 0;
+    qtdBlur = 0;
+    qtdRastro = 0;
 }
 
 void Cena::atualizaTransicoes( float dt ) {
     timeElapsed += dt;
+    ku->blur = qtdBlur;
+    ku->rastro = qtdRastro;
     // Ativa transição entre cenas
     if( timeElapsed > tempoMaximo && inTransition == false) {
         setTransicao(true);

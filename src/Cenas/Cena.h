@@ -34,6 +34,7 @@ class Cena {
         float tempoMaximo;
         float tempoTransicao;
         int qtdBlur;
+        int qtdRastro;
 };
 
 class CenaEntrada : public Cena {

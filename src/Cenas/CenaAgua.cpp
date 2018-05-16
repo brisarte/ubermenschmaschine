@@ -12,7 +12,6 @@ CenaAgua::CenaAgua( KinectUtils *kutils, bool ativo ) {
 void CenaAgua::update( float dt ) {
     if( active ) {
         atualizaTransicoes(dt);
-        ku->blur = qtdBlur;
         filtraImg();
     }
 }
