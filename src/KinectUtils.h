@@ -20,13 +20,15 @@ class KinectUtils {
 		ofxCvFloatImage floatDepth;
 
         ofFbo fboImgCam;
-        void drawImg();
+        void drawImg(bool espelho = false);
 
         // Variáveis de informação sobre a profundidade
         ofPixels depthPixels;
         float depthAvg, depthTotal;
         ofVec2f centroMassa;
         void calculaMassa();
+        void setErodeAndDilate(bool aplica = false);
+        bool erodeAndDilate;
 
         ofVideoPlayer videoDemo;
         ofxCvColorImage imgVideo;

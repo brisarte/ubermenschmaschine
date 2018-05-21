@@ -18,6 +18,8 @@ void KinectUtils::calculaMassa() {
         i++;
     }
     centroMassa = centroMassa / qtdMedia;
+    centroMassa.x = centroMassa.x/640;
+    centroMassa.y = centroMassa.y/480;
     depthAvg = depthTotal / qtdMedia;
 }
 
@@ -41,10 +43,10 @@ void KinectUtils::setup() {
     fboImgCam.allocate(1024,768);
 }
 
-void KinectUtils::drawImg() {
-    ofSetColor(255,255,255);
+void KinectUtils::drawImg(bool espelho) {
     fboImgCam.begin();
     ofClear(0,0,0,0);
+    depthCam.mirror(false, espelho);
     depthCam.draw(0,0,1024,768);
     fboImgCam.end();
 
@@ -65,6 +67,7 @@ void KinectUtils::update() {
         imgVideo.setFromPixels(videoDemo.getPixels());
         depthCam = imgVideo;
     }
+    // Aplica controles de brilho e contraste
     depthCam.brightnessContrast(brilhoKinect/100., contrasteKinect/100.);
 
 
@@ -80,12 +83,37 @@ void KinectUtils::update() {
 
     depthCam = floatDepth;
 
+    if( erodeAndDilate ) {
+        depthCam.dilate();
+        depthCam.dilate();
+        depthCam.dilate();
+        depthCam.blur(11);
+        depthCam.erode();
+        depthCam.erode();
+        depthCam.erode();
+        depthCam.blur(11);
+        depthCam.dilate();
+        depthCam.dilate();
+        depthCam.dilate();
+        depthCam.dilate();
+        depthCam.blur(11);
+        depthCam.erode();
+        depthCam.erode();
+        depthCam.erode();
+        depthCam.erode();
+        depthCam.erode();
+        depthCam.blur(11);
+    }
+
     if(blur > 0) {
         depthCam.blur(blur);
     }
-    // Aplica controles de brilho e contraste
     // Calcula centro de massa e depthAvg
     calculaMassa();
+}
+
+void KinectUtils::setErodeAndDilate(bool aplica) {
+    erodeAndDilate = aplica;
 }
 
 void KinectUtils::drawMiniatura(int x,int y,int w,int h) {
@@ -94,7 +122,7 @@ void KinectUtils::drawMiniatura(int x,int y,int w,int h) {
     depthCam.draw( x, y, w, h);
     // Desenha centro de massa
     ofSetColor( 255, 0, 255 );
-    ofDrawCircle( (centroMassa.x/640 * w) + x, (centroMassa.y/480 * h) + y, w/640+2);
+    ofDrawCircle( (centroMassa.x * w) + x, (centroMassa.y * h) + y, w/640+2);
 }
 
 void KinectUtils::drawGUI() {

@@ -72,6 +72,7 @@ class VideoRaiz {
 	public:
 		ofVideoPlayer video;
 		ofVec2f inicio;
+        int rotacao;
 };
 
 class CenaRaizes : public Cena {
@@ -82,7 +83,7 @@ class CenaRaizes : public Cena {
         void drawAtivo();
         void drawTransicao();
         void drawConfigs();
-		void adicionaRaiz();
+		void adicionaRaiz(int i);
 
         vector<VideoRaiz*> videosRaiz;
 };

@@ -4,6 +4,7 @@ CenaEntrada::CenaEntrada( KinectUtils *kutils, bool ativo ) {
     setup(kutils, ativo);
     tempoMaximo = 30;
     tempoTransicao = 0.2;
+    qtdBlur = 0;
     qtdRastro = 80;
 
     massaMaxima = 100000;
@@ -41,18 +42,15 @@ void CenaEntrada::filtraImg() {
     float proporcao = 1-(nDepth/massaMaxima);
     proporcao *= nivelProporcao;
 
-    // Calcula centro de massa normalizado
-    centroNorm.x = ku->centroMassa.x/640;
-    centroNorm.y = ku->centroMassa.y/480;
     // Desenha imagem com textura
     shaderFiltraImg.begin();
     shaderFiltraImg.setUniformTexture("texture1", fboCarne.getTextureReference(), 1);
-    ku->depthCam.draw( (1-proporcao)*512 + (proporcao*512) - (proporcao*centroNorm.x*1024),768*(1-proporcao),1024*proporcao,768*proporcao);
+    ku->depthCam.draw( (1-proporcao)*512 + (proporcao*512) - (proporcao*ku->centroMassa.x*1024),768*(1-proporcao),1024*proporcao,768*proporcao);
     shaderFiltraImg.end();
 
     // Desenha imagem menor
     shaderCena.begin();
-    ku->depthCam.draw( 512 - centroNorm.x*1024 ,0,1024,768);
+    ku->depthCam.draw( 512 - ku->centroMassa.x*1024 ,0,1024,768);
     shaderCena.end();
     
     fboCena.end();
@@ -74,7 +72,6 @@ void CenaEntrada::drawConfigs() {
     // Inicia a janela de configs
     ImGui::SetNextWindowSize(ofVec2f(330, 250), ImGuiSetCond_FirstUseEver);
     ImGui::Begin("Entrada");
-    ImGui::Text("Centro de Massa [x]:%.1f [y]:%.1f", centroNorm.x, centroNorm.y);
     ImGui::SliderFloat("duração", &tempoMaximo, 0, 120);
     ImGui::SliderInt("blur", &qtdBlur, 0, 100);
     ImGui::SliderInt("rastro", &qtdRastro, 0, 100);

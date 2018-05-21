@@ -2,9 +2,9 @@
 
 CenaRaizes::CenaRaizes( KinectUtils *kutils, bool ativo ) {
     setup(kutils, ativo);
-    tempoMaximo = 5;
+    tempoMaximo = 30;
     tempoTransicao = 3;
-    shaderCena.load("../data/vertexdummy.c","../data/blackAsAlpha.c");
+    shaderCena.load("../data/vertexdummy.c","../data/blackAsTransparent.c");
 }
 
 void CenaRaizes::update( float dt ) {
@@ -17,21 +17,24 @@ void CenaRaizes::update( float dt ) {
             }
         }
 
-        for(int i = 0; i < 10; i++) {
-            if( active && timeElapsed > i && videosRaiz.size() < i+1 ) {
-                adicionaRaiz();
+        for(int i = 0; i < 20; i++) {
+            if( active && timeElapsed > i*2 && videosRaiz.size() < i+1 ) {
+                adicionaRaiz(i);
             }
         }
         filtraImg();
     }
 }
 
-void CenaRaizes::adicionaRaiz() {
+void CenaRaizes::adicionaRaiz(int i) {
     VideoRaiz* videoRaiz = new VideoRaiz();
-    videoRaiz->video.load("../data/raiz.mp4");
+    videoRaiz->video.loadAsync(std::string("../data/raiz") + std::to_string((int)ofRandom(3)) + std::string(".mp4") );
+    videoRaiz->video.setLoopState(OF_LOOP_NONE);
     videoRaiz->video.play();
-    videoRaiz->inicio.set( ofRandom( -100, 100), 0 );
+    videoRaiz->inicio.set( ofRandom( -5*i, 5*i), ofRandom(200-20*i, 100-25*i) );
+    videoRaiz->rotacao =  ofRandom( -40, 40);
     videosRaiz.push_back(videoRaiz);
+    
 }
 
 void CenaRaizes::filtraImg() {
@@ -46,12 +49,16 @@ void CenaRaizes::filtraImg() {
     for( int i = videosRaiz.size()-1; i >= 0; i-- )
     {
         if( videosRaiz[i]->video.isLoaded() && active )  {
-            videosRaiz[i]->video.draw(ku->centroMassa.x - 422 + videosRaiz[i]->inicio.x, i*(-50) + videosRaiz[i]->inicio.y, 1024, 771);
+            ofPushMatrix();        // push the current coordinate position
+            ofTranslate(videosRaiz[i]->inicio.x+ku->centroMassa.x * 1024, videosRaiz[i]->inicio.y+768);
+            ofRotateZ(videosRaiz[i]->rotacao);
+            videosRaiz[i]->video.draw(-512,-768, 1024, 768);
+            ofPopMatrix();
         }
     }
     shaderCena.end();
     ofSetColor(30,55,150);
-    ofDrawCircle( ku->centroMassa.x/640 * 1024, ku->centroMassa.y/480 * 768, 6);
+    //ofDrawCircle( ku->centroMassa.x * 1024, ku->centroMassa.y * 768, 6);
     fboCena.end();
 }
 
@@ -73,6 +80,8 @@ void CenaRaizes::drawConfigs() {
     ImGui::Begin("Raízes");
 
     ImGui::SliderFloat("duração", &tempoMaximo, 0, 120);
+    ImGui::SliderInt("blur", &qtdBlur, 0, 100);
+    ImGui::SliderInt("rastro", &qtdRastro, 0, 100);
 
     ImGui::End();
 }

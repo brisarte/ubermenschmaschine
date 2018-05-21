@@ -22,10 +22,14 @@ void main(){
   
   // Imagem da camera
   vec4 color0 = texture2DRect(texture0, pos);
+  // Imagem do sensor de profundidade
+  vec4 corDepth =  texture2DRect(texture1, pos);
 
   vec4 color;
 
   color = color0;  
-  color.a = (color.r+color.g+color.b)/3;  
+  if(color.r < 0.1 && color.g < 0.1 && color.b < 0.1) {
+      color.a = 0;
+  }
   gl_FragColor = color;
 }

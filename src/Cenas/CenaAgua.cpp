@@ -6,6 +6,7 @@ CenaAgua::CenaAgua( KinectUtils *kutils, bool ativo ) {
     tempoMaximo = 20;
     tempoTransicao = 1;
     qtdBlur = 15;
+    qtdRastro = 0;
     shaderCena.load("../data/vertexdummy.c","../data/aguaShader.c");
 }
 
@@ -46,6 +47,7 @@ void CenaAgua::drawConfigs() {
 
     ImGui::SliderFloat("duração", &tempoMaximo, 0, 120);
     ImGui::SliderInt("blur", &qtdBlur, 0, 120);
+    ImGui::SliderInt("rastro", &qtdRastro, 0, 100);
 
     ImGui::End();
 }

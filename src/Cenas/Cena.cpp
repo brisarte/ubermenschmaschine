@@ -15,6 +15,7 @@ void Cena::atualizaTransicoes( float dt ) {
     timeElapsed += dt;
     ku->blur = qtdBlur;
     ku->rastro = qtdRastro;
+    ku->setErodeAndDilate();
     // Ativa transição entre cenas
     if( timeElapsed > tempoMaximo && inTransition == false) {
         setTransicao(true);

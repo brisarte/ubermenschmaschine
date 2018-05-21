@@ -4,6 +4,8 @@ CenaUniverso::CenaUniverso( KinectUtils *kutils, bool ativo ) {
     setup(kutils, ativo);
     tempoMaximo = 5;
     tempoTransicao = 0.1;
+    qtdBlur = 11;
+    qtdRastro = 20;
     shaderCena.load("../data/vertexdummy.c","../data/filterTexture.c");
 
     fboUniverso.allocate(1024, 768);
@@ -59,6 +61,8 @@ void CenaUniverso::drawConfigs() {
     ImGui::Begin("Universo");
 
     ImGui::SliderFloat("duração", &tempoMaximo, 0, 120);
+    ImGui::SliderInt("blur", &qtdBlur, 0, 100);
+    ImGui::SliderInt("rastro", &qtdRastro, 0, 100);
 
     ImGui::End();
 }

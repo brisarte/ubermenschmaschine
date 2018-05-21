@@ -2,8 +2,10 @@
 
 CenaSilhueta::CenaSilhueta( KinectUtils *kutils, bool ativo ) {
     setup(kutils, ativo);
-    tempoMaximo = 5;
+    tempoMaximo = 20;
     tempoTransicao = 0.1;
+    qtdBlur = 37;
+    qtdRastro = 80;
     shaderCena.load("../data/vertexdummy.c","../data/blackAsAlpha.c");
 }
 
@@ -15,18 +17,19 @@ void CenaSilhueta::update( float dt ) {
 }
 
 void CenaSilhueta::filtraImg() {
+    ku->setErodeAndDilate(true);
+    ofEnableBlendMode(OF_BLENDMODE_ADD);
     fboCena.begin();
     ofClear(0,0,0, 0);
-    ofSetColor(150,220,0);
+    ofSetColor(255,0,0);
     ku->drawImg();
-    shaderCena.begin();
-    ofSetColor(255,255,255);
-    shaderCena.end();
+    ofSetColor(0,255,255);
+    ku->drawImg(true);
     fboCena.end();
+    ofEnableBlendMode(OF_BLENDMODE_ALPHA);
 }
 
 void CenaSilhueta::drawAtivo() {
-    ofSetColor(255,255,255);
     fboCena.draw(0,0,1024,768);
 }
 
@@ -43,6 +46,8 @@ void CenaSilhueta::drawConfigs() {
     ImGui::Begin("Silhueta");
 
     ImGui::SliderFloat("duração", &tempoMaximo, 0, 120);
+    ImGui::SliderInt("blur", &qtdBlur, 0, 120);
+    ImGui::SliderInt("rastro", &qtdRastro, 0, 100);
 
     ImGui::End();
 }
