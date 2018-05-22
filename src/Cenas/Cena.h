@@ -26,6 +26,8 @@ class Cena {
         KinectUtils *ku;
         ofFbo fboCena;
         ofShader shaderCena;
+
+        ofSoundPlayer musicaCena;
     
         bool active;
         bool inTransition;

@@ -11,6 +11,7 @@ CenaEntrada::CenaEntrada( KinectUtils *kutils, bool ativo ) {
     shaderCena.load("../data/vertexdummy.c","../data/silhuetaInvertida.c");
     shaderFiltraImg.load("../data/vertexdummy.c","../data/filterTexture.c");
     imgCarne.load("../data/carne.png");
+
     fboCarne.allocate(1024, 768);
     nivelProporcao = 3;
 }

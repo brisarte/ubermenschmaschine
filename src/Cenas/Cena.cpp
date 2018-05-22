@@ -55,6 +55,12 @@ void Cena::setTransicao( bool tr ) {
 
 void Cena::setAtivo( bool at ) {
     active = at;
+    if( active ) {
+        if( musicaCena.isLoaded() ) {
+            musicaCena.play();
+            cout << "tcou";
+        }
+    }
 }
 
 void Cena::resetTimer() {

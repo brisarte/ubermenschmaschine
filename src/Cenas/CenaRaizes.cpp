@@ -5,11 +5,14 @@ CenaRaizes::CenaRaizes( KinectUtils *kutils, bool ativo ) {
     tempoMaximo = 30;
     tempoTransicao = 3;
     shaderCena.load("../data/vertexdummy.c","../data/blackAsTransparent.c");
+
+    musicaCena.load("../data/raizes.mp3");
 }
 
 void CenaRaizes::update( float dt ) {
     if( active ) {
         atualizaTransicoes(dt);
+
 
         for( int i = 0; i < videosRaiz.size(); i++ ) {
             if( videosRaiz[i]->video.isLoaded() && active )  {
