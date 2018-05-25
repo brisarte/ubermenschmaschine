@@ -21,9 +21,9 @@ void CenaSilhueta::filtraImg() {
     ofEnableBlendMode(OF_BLENDMODE_ADD);
     fboCena.begin();
     ofClear(0,0,0, 0);
-    ofSetColor(255,0,0);
+    ofSetColor(255,220,205);
     ku->drawImg();
-    ofSetColor(0,255,255);
+    ofSetColor(30,200,200);
     ku->drawImg(true);
     fboCena.end();
     ofEnableBlendMode(OF_BLENDMODE_ALPHA);

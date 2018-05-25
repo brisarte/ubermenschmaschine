@@ -86,8 +86,12 @@ class CenaRaizes : public Cena {
         void drawTransicao();
         void drawConfigs();
 		void adicionaRaiz(int i);
+		void adicionaFlor(int i);
+
+        ofShader shaderFlor;
 
         vector<VideoRaiz*> videosRaiz;
+        vector<VideoRaiz*> videosFlor;
 };
 
 class CenaBorboleta : public Cena {

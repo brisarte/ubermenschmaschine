@@ -5,6 +5,7 @@ CenaRaizes::CenaRaizes( KinectUtils *kutils, bool ativo ) {
     tempoMaximo = 30;
     tempoTransicao = 3;
     shaderCena.load("../data/vertexdummy.c","../data/blackAsTransparent.c");
+    shaderFlor.load("../data/vertexdummy.c","../data/greenAsTransparent.c");
 
     musicaCena.load("../data/raizes.mp3");
 }
@@ -13,16 +14,23 @@ void CenaRaizes::update( float dt ) {
     if( active ) {
         atualizaTransicoes(dt);
 
-
         for( int i = 0; i < videosRaiz.size(); i++ ) {
             if( videosRaiz[i]->video.isLoaded() && active )  {
                 videosRaiz[i]->video.update();
+            }
+        }
+        for( int i = 0; i < videosFlor.size(); i++ ) {
+            if( videosFlor[i]->video.isLoaded() && active )  {
+                videosFlor[i]->video.update();
             }
         }
 
         for(int i = 0; i < 20; i++) {
             if( active && timeElapsed > i*2 && videosRaiz.size() < i+1 ) {
                 adicionaRaiz(i);
+            }
+            if( active && timeElapsed > i + 10 && videosFlor.size() < i+1 ) {
+                adicionaFlor(i);
             }
         }
         filtraImg();
@@ -31,18 +39,28 @@ void CenaRaizes::update( float dt ) {
 
 void CenaRaizes::adicionaRaiz(int i) {
     VideoRaiz* videoRaiz = new VideoRaiz();
-    videoRaiz->video.loadAsync(std::string("../data/raiz") + std::to_string((int)ofRandom(3)) + std::string(".mp4") );
+    videoRaiz->video.loadAsync(std::string("../data/raiz") + std::to_string((int)ofRandom(4)) + std::string(".mp4") );
     videoRaiz->video.setLoopState(OF_LOOP_NONE);
     videoRaiz->video.play();
     videoRaiz->inicio.set( ofRandom( -5*i, 5*i), ofRandom(200-20*i, 100-25*i) );
     videoRaiz->rotacao =  ofRandom( -40, 40);
     videosRaiz.push_back(videoRaiz);
-    
+}
+
+void CenaRaizes::adicionaFlor(int i) {
+    VideoRaiz* videoFlor = new VideoRaiz();
+    videoFlor->video.loadAsync(std::string("../data/flor") + std::to_string((int)ofRandom(2)) + std::string(".mp4") );
+    videoFlor->video.setLoopState(OF_LOOP_NONE);
+    videoFlor->video.play();
+    videoFlor->inicio.set( ofRandom( -10*i-100, 10*i+100), ofRandom(-10*i, -26*i) );
+    videoFlor->rotacao =  ofRandom( -40, 40);
+    cout << "adiconando flor " << i << " videoLoaded:" << videoFlor->video.isLoaded() << "\n";
+    videosFlor.push_back(videoFlor);
 }
 
 void CenaRaizes::filtraImg() {
     fboCena.begin();
-    ofClear(0,0,0, 0);
+    ofClear(0,0,0, 0);\ 
     ofSetColor(5,20,50);
     ku->depthCam.blurHeavily();
     ku->depthCam.draw(0,0,1024,768);
@@ -54,14 +72,28 @@ void CenaRaizes::filtraImg() {
         if( videosRaiz[i]->video.isLoaded() && active )  {
             ofPushMatrix();        // push the current coordinate position
             ofTranslate(videosRaiz[i]->inicio.x+ku->centroMassa.x * 1024, videosRaiz[i]->inicio.y+768);
+
             ofRotateZ(videosRaiz[i]->rotacao);
+            cout << "desenhando raiz " << i << " [" << videosRaiz[i]->inicio.x+ku->centroMassa.x * 1024 << "," << videosRaiz[i]->inicio.y+768 << "]\n";
             videosRaiz[i]->video.draw(-512,-768, 1024, 768);
             ofPopMatrix();
         }
     }
     shaderCena.end();
-    ofSetColor(30,55,150);
-    //ofDrawCircle( ku->centroMassa.x * 1024, ku->centroMassa.y * 768, 6);
+    shaderFlor.begin();
+    //Desenha Flores
+    for( int i = videosFlor.size()-1; i >= 0; i-- )
+    {
+        if( videosFlor[i]->video.isLoaded() && active )  {
+            ofPushMatrix();        // push the current coordinate position
+            ofTranslate(videosFlor[i]->inicio.x+ku->centroMassa.x * 1024, videosFlor[i]->inicio.y+768);
+            cout << "desenhando flor " << i << " [" << videosFlor[i]->inicio.x+ku->centroMassa.x * 1024 << "," << videosFlor[i]->inicio.y+768 << "]\n";
+            ofRotateZ(videosFlor[i]->rotacao);
+            videosFlor[i]->video.draw(-51,-77, 102, 76);
+            ofPopMatrix();
+        }
+    }
+    shaderFlor.end();
     fboCena.end();
 }
 
