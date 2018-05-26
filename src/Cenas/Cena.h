@@ -114,6 +114,17 @@ class CenaSol : public Cena {
         void drawConfigs();
 };
 
+class Particula {
+    public:
+        Particula(float x,float y);
+        ofVec2f pos;
+        ofVec2f velocidade;
+        ofColor cor;
+
+        void update(float dt, ofVec2f aceleracao);
+        void draw();
+};
+
 class CenaSilhueta : public Cena {
     public:
         CenaSilhueta(KinectUtils *kutils, bool ativo = true);
@@ -122,6 +133,12 @@ class CenaSilhueta : public Cena {
         void drawAtivo();
         void drawTransicao();
         void drawConfigs();
+
+        void criaParticulasKinect( ofPixels depthPixels );
+        
+        int gravidade;
+
+        vector<Particula*> particulas;
 };
 
 
