@@ -9,7 +9,7 @@ void KinectUtils::calculaMassa() {
     centroMassa.set(0,0);
     while( i < depthPixels.size() ) {
         int brilho = depthPixels[i];
-        if( brilho > 0 ) {
+        if( brilho > 240 ) {
             centroMassa.x += i % 640;
             centroMassa.y += floor(i/640);
             qtdMedia++;

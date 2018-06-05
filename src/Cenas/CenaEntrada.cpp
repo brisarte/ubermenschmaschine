@@ -2,18 +2,18 @@
 
 CenaEntrada::CenaEntrada( KinectUtils *kutils, bool ativo ) {
     setup(kutils, ativo);
-    tempoMaximo = 30;
+    tempoMaximo = 80;
     tempoTransicao = 0.2;
     qtdBlur = 0;
     qtdRastro = 80;
 
-    massaMaxima = 100000;
+    massaMaxima = 70000;
     shaderCena.load("../data/vertexdummy.c","../data/silhuetaInvertida.c");
     shaderFiltraImg.load("../data/vertexdummy.c","../data/filterTexture.c");
     imgCarne.load("../data/carne.png");
 
     fboCarne.allocate(1024, 768);
-    nivelProporcao = 3;
+    nivelProporcao = 1;
 }
 
 void CenaEntrada::update( float dt ) {
@@ -40,7 +40,7 @@ void CenaEntrada::filtraImg() {
   
     float nDepth = ku->depthTotal;
     if(nDepth == 0) nDepth = 0.01;
-    float proporcao = 1-(nDepth/massaMaxima);
+    float proporcao = 2-(nDepth/massaMaxima);
     proporcao *= nivelProporcao;
 
     // Desenha imagem com textura

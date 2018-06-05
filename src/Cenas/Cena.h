@@ -102,6 +102,11 @@ class CenaBorboleta : public Cena {
         void drawAtivo();
         void drawTransicao();
         void drawConfigs();
+
+        ofVideoPlayer fundo;
+        ofVideoPlayer borboleta;
+        ofImage imgBorboleta;
+        ofVec2f posBorboleta;
 };
 
 class CenaSol : public Cena {

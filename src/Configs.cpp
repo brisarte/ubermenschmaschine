@@ -11,10 +11,12 @@ void Configs::setup() {
     cenaRaizes      = new CenaRaizes(&ku, false);
     cenaSilhueta    = new CenaSilhueta(&ku, false);
     cenaUniverso    = new CenaUniverso(&ku, false);
+    cenaBorboleta    = new CenaBorboleta(&ku, false);
 
     // Adiciona cenas
     cenas.push_back(cenaEntrada);
     cenas.push_back(cenaAgua);
+    cenas.push_back(cenaBorboleta);
     cenas.push_back(cenaRaizes);
     cenas.push_back(cenaSilhueta);
     cenas.push_back(cenaUniverso);

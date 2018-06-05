@@ -4,7 +4,7 @@ Particula::Particula(float x, float y) {
     // ajusta de 640:480 para 1024:768
     pos.set( (x/640)*1024, (y/480)*768);
     velocidade.set( ofRandom(-20, 20), ofRandom(0, 50) );
-    cor.set(255,255,0);
+    cor.set(255,255,200);
 }
 
 void Particula::update(float dt, ofVec2f aceleracao) {
@@ -13,7 +13,7 @@ void Particula::update(float dt, ofVec2f aceleracao) {
     if ( pos.y > 768 ) {
         velocidade.set( ofRandom(-20, 20) , -velocidade.y/2 );
     }
-    cor.setHue( cor.getHue() + dt*100 );
+    //cor.setHue( cor.getHue() + dt*100 );
     cor.setBrightness( cor.getBrightness() - dt*10 );
 }
 
@@ -25,7 +25,7 @@ void Particula::draw() {
 CenaSilhueta::CenaSilhueta( KinectUtils *kutils, bool ativo ) {
     setup(kutils, ativo);
     tempoMaximo = 2;
-    tempoTransicao = 150;
+    tempoTransicao = 5;
     qtdBlur = 37;
     qtdRastro = 80;
     gravidade = 300;
@@ -83,11 +83,11 @@ void CenaSilhueta::drawTransicao() {
     qtdRastro = 0;
 
     // Numero normalizado de acordo com o tempo de transição
-    float nFade = 1 - (timeElapsed - timeStartTransicao)/(tempoTransicao/150);
+    float nFade = 1 - (timeElapsed - timeStartTransicao)/(tempoTransicao/15);
     ofSetColor( nFade*255, nFade*255, nFade*255 );
     fboCena.draw(0,0,1024,768);
 
-    if (ofRandom( 0, (1 - (timeElapsed - timeStartTransicao)/(tempoTransicao/80))*20 ) > 0)
+    if (ofRandom( 0, (1 - (timeElapsed - timeStartTransicao)/(tempoTransicao/5))*20 ) > 0)
         criaParticulasKinect(ku->depthPixels); 
 
     for( int i = 0; i < particulas.size(); i++ ) {
