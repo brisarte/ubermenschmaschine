@@ -45,10 +45,11 @@ void Cena::drawAtivo() {}
 void Cena::drawTransicao() {}
 
 void Cena::setTransicao( bool tr ) {
-    // Caso esteja desativando, anota o horário
-    if ( tr ) {
+    if ( tr && !inTransition ) {
+        // Caso esteja desativando, anota o horário
         timeStartTransicao = timeElapsed;
-        cout << "\t startTransicao:" << timeStartTransicao;
+        // E força o tempoMaximo para agora
+        tempoMaximo = timeElapsed;
     }
     inTransition = tr;
 }
@@ -58,7 +59,10 @@ void Cena::setAtivo( bool at ) {
     if( active ) {
         if( musicaCena.isLoaded() ) {
             musicaCena.play();
-            cout << "tcou";
+        }
+    } else {
+        if( musicaCena.isLoaded() ) {
+            musicaCena.stop();
         }
     }
 }
@@ -69,7 +73,8 @@ void Cena::resetTimer() {
 
 
 void Cena::desligaCena( bool transition ) {
-    active = false;
+    setAtivo(false);
     inTransition = transition;
     resetTimer();
 }
+

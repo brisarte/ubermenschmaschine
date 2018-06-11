@@ -24,11 +24,13 @@ void Particula::draw() {
 
 CenaSilhueta::CenaSilhueta( KinectUtils *kutils, bool ativo ) {
     setup(kutils, ativo);
-    tempoMaximo = 2;
-    tempoTransicao = 5;
+    tempoMaximo = 100;
+    tempoTransicao = 3;
     qtdBlur = 37;
     qtdRastro = 80;
-    gravidade = 300;
+    gravidade = 400;
+    posEgo.set(10,300);
+    aceleracaoEgo.set(10,0);
     shaderCena.load("../data/vertexdummy.c","../data/blackAsAlpha.c");
 
     // Gera particulas
@@ -37,6 +39,32 @@ CenaSilhueta::CenaSilhueta( KinectUtils *kutils, bool ativo ) {
 void CenaSilhueta::update( float dt ) {
     if( active ) {
         atualizaTransicoes(dt);
+        // calcula posicao do ego
+        float distanciaEgo = (posEgo.x - ku->centroMassa.x*1024);
+        if(distanciaEgo > 0) {
+           aceleracaoEgo.x = 1024 - distanciaEgo;
+           aceleracaoEgo.x /= 10;
+            aceleracaoEgo.x = aceleracaoEgo.x * aceleracaoEgo.x;
+        } else {
+            aceleracaoEgo.x = -1024 - distanciaEgo;
+            aceleracaoEgo.x /= 10;
+            aceleracaoEgo.x = aceleracaoEgo.x * -aceleracaoEgo.x;
+        }
+        posEgo.x += aceleracaoEgo.x/100 * (sin(timeElapsed*4)+0.8);
+        posEgo.x += ofNoise(timeElapsed*5)*10;
+
+        int espacoLimite = timeElapsed > 22.6 ? 512 : timeElapsed*timeElapsed;
+        if(posEgo.x < espacoLimite) {
+            posEgo.x = espacoLimite;
+        }
+        if(posEgo.x > 1024 - espacoLimite) {
+            posEgo.x = 1024 - espacoLimite;
+        }
+        // Caso o espaco esteja limitado, desliga a cena
+        if(espacoLimite > 502 && distanciaEgo < 2) {
+            setTransicao(true);
+        }
+
         filtraImg();
         if (timeElapsed > timeStartTransicao) {
             ofVec2f aceleracao(0, gravidade);
@@ -67,10 +95,11 @@ void CenaSilhueta::filtraImg() {
     ofClear(0,0,0, 0);
     ofEnableBlendMode(OF_BLENDMODE_ADD);
     ofSetColor(255,220,205);
-    ku->drawImg();
+    ku->depthCam.draw( (posEgo.x - ku->centroMassa.x*1024) ,0,1024,768);
     ofSetColor(30,200,200);
-    ku->drawImg(true);
+    ku->depthCam.draw( 0 ,0,1024,768);
     ofEnableBlendMode(OF_BLENDMODE_ALPHA);
+    ofDrawCircle(posEgo, 10);
     fboCena.end();
 }
 

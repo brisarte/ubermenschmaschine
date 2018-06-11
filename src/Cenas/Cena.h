@@ -143,6 +143,9 @@ class CenaSilhueta : public Cena {
         
         int gravidade;
 
+        ofVec2f posEgo;
+        ofVec2f aceleracaoEgo;
+
         vector<Particula*> particulas;
 };
 
