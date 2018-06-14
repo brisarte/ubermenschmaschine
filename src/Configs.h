@@ -25,8 +25,10 @@ class Configs: public ofBaseApp {
         CenaSol*        cenaSol;
         CenaSilhueta*   cenaSilhueta;
         CenaUniverso*   cenaUniverso;
+        CenaNascendo*   cenaNascendo;
+        CenaAbismo*     cenaAbismo;
+        CenaCorpos*     cenaCorpos;
         /*
-            cenaParticulas,
             cenaVoid,
             cenaQuadrados,
             */

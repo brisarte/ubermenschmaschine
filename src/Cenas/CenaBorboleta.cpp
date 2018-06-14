@@ -18,9 +18,22 @@ void CenaBorboleta::update( float dt ) {
         atualizaTransicoes(dt);
 
         posBorboleta.x = ofLerp(posBorboleta.x, ku->centroMassa.x*1024, 0.01);
-        posBorboleta.y = ofLerp(posBorboleta.y, ku->centroMassa.y*768, 0.1) + (ofNoise(dt)-0.5)*100;
+        posBorboleta.y = ofLerp(posBorboleta.y, 200 - (ofNoise(timeElapsed)-0.5)*200 , 0.1);
+        cout << (ofNoise(timeElapsed)-0.5)<< "\n";
 
+        //Causa caos no meio do video
+        if( timeElapsed > 30 ) {
+            int baguncaBorboleta = timeElapsed*3-90;
+            posBorboleta.x = ofLerp(posBorboleta.x, ku->centroMassa.x*1024, 0.01) + ofRandom(-baguncaBorboleta,baguncaBorboleta);
+            posBorboleta.y = ofLerp(posBorboleta.y, ku->centroMassa.y*768, 0.1) + ofRandom(-baguncaBorboleta,baguncaBorboleta);
+        }
+
+        borboleta.setPaused(false);
+        fundo.setPaused(false);
         filtraImg();
+    } else {
+        borboleta.setPaused(true);
+        fundo.setPaused(true);
     }
 }
 
@@ -37,7 +50,12 @@ void CenaBorboleta::filtraImg() {
     if( posBorboleta.x > ku->centroMassa.x*1024 ) {
         imgBorboleta.mirror(false,true);
     }
-    imgBorboleta.draw( posBorboleta.x - 128 , posBorboleta.y - 80 , 256,191);
+    if(timeElapsed > 50 && timeElapsed < 53 ) {
+        imgBorboleta.mirror(true, false);
+    }
+    if(timeElapsed < 100) {
+        imgBorboleta.draw( posBorboleta.x - 128 , posBorboleta.y - 80 , 512,384);
+    }
     ofSetColor(255,255,255);
     shaderCena.end();
     fboCena.end();

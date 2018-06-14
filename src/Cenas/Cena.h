@@ -109,6 +109,42 @@ class CenaBorboleta : public Cena {
         ofVec2f posBorboleta;
 };
 
+class CenaAbismo : public Cena {
+    public:
+        CenaAbismo(KinectUtils *kutils, bool ativo = true);
+        void filtraImg();
+        void update( float dt );
+        void drawAtivo();
+        void drawTransicao();
+        void drawConfigs();
+
+        ofVideoPlayer video;
+};
+
+class CenaNascendo : public Cena {
+    public:
+        CenaNascendo(KinectUtils *kutils, bool ativo = true);
+        void filtraImg();
+        void update( float dt );
+        void drawAtivo();
+        void drawTransicao();
+        void drawConfigs();
+
+        ofVideoPlayer video;
+};
+
+class CenaCorpos : public Cena {
+    public:
+        CenaCorpos(KinectUtils *kutils, bool ativo = true);
+        void filtraImg();
+        void update( float dt );
+        void drawAtivo();
+        void drawTransicao();
+        void drawConfigs();
+
+        ofVideoPlayer video;
+};
+
 class CenaSol : public Cena {
     public:
         CenaSol(KinectUtils *kutils, bool ativo = true);

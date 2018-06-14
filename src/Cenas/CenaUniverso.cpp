@@ -4,7 +4,7 @@ CenaUniverso::CenaUniverso( KinectUtils *kutils, bool ativo ) {
     setup(kutils, ativo);
     tempoMaximo = 5;
     tempoTransicao = 0.1;
-    qtdBlur = 11;
+    qtdBlur = 0;
     qtdRastro = 20;
     shaderCena.load("../data/vertexdummy.c","../data/filterTexture.c");
 
@@ -23,6 +23,8 @@ void CenaUniverso::update( float dt ) {
 }
 
 void CenaUniverso::filtraImg() {
+    qtdBlur = timeElapsed*8;
+    ku->brilhoKinect = timeElapsed*7;
     ofSetColor(255,255,255);
     videoUniverso.update();
     fboUniverso.begin();

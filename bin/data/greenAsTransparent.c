@@ -31,5 +31,9 @@ void main(){
   if(color.r < 0.1 && color.g > 0.7 && color.b < 0.1) {
       color.a = 0;
   }
+  if(color.g > 0.6 && color.r < 0.5 && color.b <0.5 && color.a > 0.2) {
+      color.a = 1 - color.g;
+      color.g = 1 - color.g;
+  }
   gl_FragColor = color;
 }

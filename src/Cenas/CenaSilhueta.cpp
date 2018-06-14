@@ -31,9 +31,6 @@ CenaSilhueta::CenaSilhueta( KinectUtils *kutils, bool ativo ) {
     gravidade = 400;
     posEgo.set(10,300);
     aceleracaoEgo.set(10,0);
-    shaderCena.load("../data/vertexdummy.c","../data/blackAsAlpha.c");
-
-    // Gera particulas
 }
 
 void CenaSilhueta::update( float dt ) {
@@ -90,7 +87,7 @@ void CenaSilhueta::criaParticulasKinect(ofPixels depthPixels) {
 
 void CenaSilhueta::filtraImg() {
     ku->setErodeAndDilate(false);
-    ofSetColor(255,255,255);
+    ofSetColor(255,255,255, 255);
     fboCena.begin();
     ofClear(0,0,0, 0);
     ofEnableBlendMode(OF_BLENDMODE_ADD);

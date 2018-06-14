@@ -8,17 +8,23 @@ void Configs::setup() {
     // Cria cenas que serão exibidas
     cenaEntrada     = new CenaEntrada(&ku, true);
     cenaAgua        = new CenaAgua(&ku, false);
+    cenaNascendo    = new CenaNascendo(&ku, false);
+    cenaBorboleta    = new CenaBorboleta(&ku, false);
     cenaRaizes      = new CenaRaizes(&ku, false);
     cenaSilhueta    = new CenaSilhueta(&ku, false);
+    cenaAbismo    = new CenaAbismo(&ku, false);
+    cenaCorpos    = new CenaCorpos(&ku, false);
     cenaUniverso    = new CenaUniverso(&ku, false);
-    cenaBorboleta    = new CenaBorboleta(&ku, false);
 
     // Adiciona cenas
     cenas.push_back(cenaEntrada);
     cenas.push_back(cenaAgua);
+    cenas.push_back(cenaNascendo);
     cenas.push_back(cenaBorboleta);
     cenas.push_back(cenaRaizes);
     cenas.push_back(cenaSilhueta);
+    cenas.push_back(cenaAbismo);
+    cenas.push_back(cenaCorpos);
     cenas.push_back(cenaUniverso);
 
     cenaAtual = 0;
