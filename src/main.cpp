@@ -10,14 +10,14 @@ int main( ){
 
 	settings.width = 1024;
 	settings.height = 768;
-	settings.setPosition(ofVec2f( 1366,0));
+	settings.setPosition(ofVec2f( 1940,100));
 	settings.resizable = true;
 	settings.decorated = false;
 	settings.multiMonitorFullScreen = true;
 	settings.numSamples = 8;
 	shared_ptr<ofAppBaseWindow> mainWindow = ofCreateWindow(settings);
 
-	settings.width = 950;
+	settings.width = 1800;
 	settings.height = 950;
 	settings.setPosition(ofVec2f( 0,0));
 	settings.resizable = true;

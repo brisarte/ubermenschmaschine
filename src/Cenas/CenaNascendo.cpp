@@ -46,7 +46,7 @@ void CenaNascendo::drawTransicao() {
 void CenaNascendo::drawConfigs() {
     // Inicia a janela de configs
     ImGui::SetNextWindowSize(ofVec2f(330, 250), ImGuiSetCond_FirstUseEver);
-    ImGui::Begin("Borboleta");
+    ImGui::Begin("Nascendo");
 
     ImGui::SliderFloat("duração", &tempoMaximo, 0, 120);
 

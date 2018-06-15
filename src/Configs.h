@@ -28,13 +28,11 @@ class Configs: public ofBaseApp {
         CenaNascendo*   cenaNascendo;
         CenaAbismo*     cenaAbismo;
         CenaCorpos*     cenaCorpos;
-        /*
-            cenaVoid,
-            cenaQuadrados,
-            */
+
         float t0, t1, dt;
 
         int cenaAtual;
+        void resetMoksha();
         void proximaCena();
         void voltaCena();
         void resetCena(int i);

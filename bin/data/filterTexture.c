@@ -24,7 +24,7 @@ void main(){
     color.r = corTexture.r;
     color.g = corTexture.g;
     color.b = corTexture.b;
-    color.a = corKinect.r;
+    color.a = (corKinect.r + corKinect.g + corKinect.b)/3;
 
     gl_FragColor = color;
 

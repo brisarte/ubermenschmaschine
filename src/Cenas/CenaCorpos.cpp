@@ -2,13 +2,14 @@
 
 CenaCorpos::CenaCorpos( KinectUtils *kutils, bool ativo ) {
     setup(kutils, ativo);
-    tempoMaximo = 1;
+    tempoMaximo = 110;
     tempoTransicao = 0.1;
     shaderCena.load("../data/vertexdummy.c","../data/greenAsTransparent.c");
 
-    video.load("../data/raiz1.mp4");
+    video.load("../data/corpos.mp4");
     video.play();
     video.setPaused(true);
+    musicaCena.load("../data/corpos.mp3");
 }
 
 void CenaCorpos::update( float dt ) {

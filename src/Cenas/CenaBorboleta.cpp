@@ -2,7 +2,7 @@
 
 CenaBorboleta::CenaBorboleta( KinectUtils *kutils, bool ativo ) {
     setup(kutils, ativo);
-    tempoMaximo = 200;
+    tempoMaximo = 140;
     tempoTransicao = 0.1;
     shaderCena.load("../data/vertexdummy.c","../data/greenAsTransparent.c");
 

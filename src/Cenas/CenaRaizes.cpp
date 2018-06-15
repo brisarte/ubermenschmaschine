@@ -54,7 +54,6 @@ void CenaRaizes::adicionaFlor(int i) {
     videoFlor->video.play();
     videoFlor->inicio.set( ofRandom( -10*i-100, 10*i+100), ofRandom(-10*i, -26*i) );
     videoFlor->rotacao =  ofRandom( -40, 40);
-    cout << "adiconando flor " << i << " videoLoaded:" << videoFlor->video.isLoaded() << "\n";
     videosFlor.push_back(videoFlor);
 }
 
@@ -74,7 +73,6 @@ void CenaRaizes::filtraImg() {
             ofTranslate(videosRaiz[i]->inicio.x+ku->centroMassa.x * 1024, videosRaiz[i]->inicio.y+768);
 
             ofRotateZ(videosRaiz[i]->rotacao);
-            cout << "desenhando raiz " << i << " [" << videosRaiz[i]->inicio.x+ku->centroMassa.x * 1024 << "," << videosRaiz[i]->inicio.y+768 << "]\n";
             videosRaiz[i]->video.draw(-512,-768, 1024, 768);
             ofPopMatrix();
         }
@@ -87,7 +85,6 @@ void CenaRaizes::filtraImg() {
         if( videosFlor[i]->video.isLoaded() && active )  {
             ofPushMatrix();        // push the current coordinate position
             ofTranslate(videosFlor[i]->inicio.x+ku->centroMassa.x * 1024, videosFlor[i]->inicio.y+768);
-            cout << "desenhando flor " << i << " [" << videosFlor[i]->inicio.x+ku->centroMassa.x * 1024 << "," << videosFlor[i]->inicio.y+768 << "]\n";
             ofRotateZ(videosFlor[i]->rotacao);
             videosFlor[i]->video.draw(-51,-77, 102, 76);
             ofPopMatrix();

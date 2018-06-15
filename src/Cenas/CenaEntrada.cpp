@@ -5,7 +5,7 @@ CenaEntrada::CenaEntrada( KinectUtils *kutils, bool ativo ) {
     tempoMaximo = 80;
     tempoTransicao = 0.2;
     qtdBlur = 0;
-    qtdRastro = 80;
+    qtdRastro = 0;
 
     massaMaxima = 70000;
     shaderCena.load("../data/vertexdummy.c","../data/silhuetaInvertida.c");
@@ -14,6 +14,9 @@ CenaEntrada::CenaEntrada( KinectUtils *kutils, bool ativo ) {
 
     fboCarne.allocate(1024, 768);
     nivelProporcao = 1;
+    musicaCena.load("../data/entrada.mp3");
+    musicaCena.play();
+    musicaCena.setPaused(true);
 }
 
 void CenaEntrada::update( float dt ) {

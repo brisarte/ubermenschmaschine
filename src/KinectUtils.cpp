@@ -27,8 +27,8 @@ void KinectUtils::setup() {
 
     // Variáveis para controlar a visibilidade
     anguloKinect    = 0;
-    brilhoKinect    = 50;
-    contrasteKinect = 50;
+    brilhoKinect    = 0;
+    contrasteKinect = 100;
     rastro = 0;
     blur = 0;
 
@@ -46,7 +46,7 @@ void KinectUtils::setup() {
 void KinectUtils::drawImg(bool espelho) {
     fboImgCam.begin();
     ofClear(0,0,0,0);
-    depthCam.mirror(false, espelho);
+    depthCam.mirror(false, !espelho);
     depthCam.draw(0,0,1024,768);
     fboImgCam.end();
 

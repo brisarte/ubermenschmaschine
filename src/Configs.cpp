@@ -6,7 +6,7 @@ void Configs::setup() {
     // Inicia a GUI
     configs.setup();
     // Cria cenas que serão exibidas
-    cenaEntrada     = new CenaEntrada(&ku, true);
+    cenaEntrada     = new CenaEntrada(&ku, false);
     cenaAgua        = new CenaAgua(&ku, false);
     cenaNascendo    = new CenaNascendo(&ku, false);
     cenaBorboleta    = new CenaBorboleta(&ku, false);
@@ -61,6 +61,7 @@ void Configs::draw() {
 
     ImGui::Text("Cena Atual: %i", cenaAtual);
     ImGui::Text("Tempo decorrido: %.1f", cenas[cenaAtual]->timeElapsed);
+    if (ImGui::Button("RESET MOKSHA")) { resetMoksha(); } 
     if (ImGui::Button("Volta Cena")) { voltaCena(); } 
     if (ImGui::Button("Avança Cena")) { proximaCena(); } 
     if (ImGui::Button("Reinicia Cena")) { resetCena(cenaAtual); } 
@@ -80,15 +81,25 @@ void Configs::draw() {
 void Configs::mousePressed(int x, int y, int iButton) {
 }
 
+void Configs::resetMoksha() {
+    //Força que a cena atual acabe caso ainda nao tenha acabado
+    cenas[cenaAtual]->desligaCena(false);
+    this->cenas[0]->setAtivo(true);
+    this->cenaAtual = 0;
+    ku.brilhoKinect = 0;
+    ku.contrasteKinect = 100;
+}
+
 void Configs::proximaCena() {
     //Força que a cena atual acabe caso ainda nao tenha acabado
-    cenas[cenaAtual]->desligaCena();
+    cenas[cenaAtual]->desligaCena(false);
 
     // proxima cena
-    int prox = cenaAtual == this->cenas.size()-1 ? 0 : cenaAtual + 1;
-    this->cenas[prox]->setAtivo(true);
-
-    this->cenaAtual = prox;
+    int prox = cenaAtual + 1;
+    if(this->cenas.size() > prox) {
+        this->cenas[prox]->setAtivo(true);
+        this->cenaAtual = prox;
+    }
 }
 
 void Configs::voltaCena() {

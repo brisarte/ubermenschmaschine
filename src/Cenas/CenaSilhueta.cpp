@@ -4,7 +4,8 @@ Particula::Particula(float x, float y) {
     // ajusta de 640:480 para 1024:768
     pos.set( (x/640)*1024, (y/480)*768);
     velocidade.set( ofRandom(-20, 20), ofRandom(0, 50) );
-    cor.set(255,255,200);
+    cor.set(255,255,220);
+    cor.setBrightness(150);
 }
 
 void Particula::update(float dt, ofVec2f aceleracao) {
@@ -14,7 +15,7 @@ void Particula::update(float dt, ofVec2f aceleracao) {
         velocidade.set( ofRandom(-20, 20) , -velocidade.y/2 );
     }
     //cor.setHue( cor.getHue() + dt*100 );
-    cor.setBrightness( cor.getBrightness() - dt*10 );
+    cor.setBrightness( cor.getBrightness() - dt*20 );
 }
 
 void Particula::draw() {
@@ -24,11 +25,11 @@ void Particula::draw() {
 
 CenaSilhueta::CenaSilhueta( KinectUtils *kutils, bool ativo ) {
     setup(kutils, ativo);
-    tempoMaximo = 100;
+    tempoMaximo = 20;
     tempoTransicao = 3;
     qtdBlur = 37;
     qtdRastro = 80;
-    gravidade = 400;
+    gravidade = 250;
     posEgo.set(10,300);
     aceleracaoEgo.set(10,0);
 }
@@ -39,28 +40,42 @@ void CenaSilhueta::update( float dt ) {
         // calcula posicao do ego
         float distanciaEgo = (posEgo.x - ku->centroMassa.x*1024);
         if(distanciaEgo > 0) {
-           aceleracaoEgo.x = 1024 - distanciaEgo;
-           aceleracaoEgo.x /= 10;
-            aceleracaoEgo.x = aceleracaoEgo.x * aceleracaoEgo.x;
+            aceleracaoEgo.x = 1024 - distanciaEgo;
+            //aceleracaoEgo.x /= 100;
+            aceleracaoEgo.x = aceleracaoEgo.x * aceleracaoEgo.x * aceleracaoEgo.x;
         } else {
             aceleracaoEgo.x = -1024 - distanciaEgo;
-            aceleracaoEgo.x /= 10;
-            aceleracaoEgo.x = aceleracaoEgo.x * -aceleracaoEgo.x;
+            //aceleracaoEgo.x /= 100;
+            aceleracaoEgo.x = aceleracaoEgo.x * aceleracaoEgo.x * aceleracaoEgo.x;
         }
-        posEgo.x += aceleracaoEgo.x/100 * (sin(timeElapsed*4)+0.8);
-        posEgo.x += ofNoise(timeElapsed*5)*10;
 
-        int espacoLimite = timeElapsed > 22.6 ? 512 : timeElapsed*timeElapsed;
-        if(posEgo.x < espacoLimite) {
-            posEgo.x = espacoLimite;
-        }
-        if(posEgo.x > 1024 - espacoLimite) {
-            posEgo.x = 1024 - espacoLimite;
+        int espacoLimite = timeElapsed*4;
+
+        // Caso esteja acabando, ignora o limite e atrai a silhueta
+        if( timeElapsed < (tempoMaximo - 1) ) {
+
+            posEgo.x += aceleracaoEgo.x/100 * (sin(timeElapsed*4)+0.8);
+            // Faz a sombra ~dançar
+            posEgo.x += (ofNoise(timeElapsed*5)-0.5)*10;
+            posEgo.x += (ofNoise(timeElapsed*3)-0.5)*12;
+            if(posEgo.x < espacoLimite) {
+                posEgo.x = espacoLimite;
+            }
+            if(posEgo.x > 1024 - espacoLimite) {
+                posEgo.x = 1024 - espacoLimite;
+            }
+        } else {
+            posEgo.x = ofLerp( posEgo.x, ku->centroMassa.x*1024, 0.02);
+            if(abs(distanciaEgo) < 0.1) {
+                setTransicao(true);
+            }
         }
         // Caso o espaco esteja limitado, desliga a cena
-        if(espacoLimite > 502 && distanciaEgo < 2) {
+        /*
+        if(espacoLimite > 502 && abs(distanciaEgo) < 2) {
             setTransicao(true);
         }
+        */
 
         filtraImg();
         if (timeElapsed > timeStartTransicao) {
@@ -101,6 +116,7 @@ void CenaSilhueta::filtraImg() {
 }
 
 void CenaSilhueta::drawAtivo() {
+    ofSetColor(255,255,255,255);
     fboCena.draw(0,0,1024,768);
 }
 

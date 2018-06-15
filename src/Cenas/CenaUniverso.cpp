@@ -2,15 +2,16 @@
 
 CenaUniverso::CenaUniverso( KinectUtils *kutils, bool ativo ) {
     setup(kutils, ativo);
-    tempoMaximo = 5;
+    tempoMaximo = 26;
     tempoTransicao = 0.1;
     qtdBlur = 0;
-    qtdRastro = 20;
+    qtdRastro = 0;
     shaderCena.load("../data/vertexdummy.c","../data/filterTexture.c");
 
     fboUniverso.allocate(1024, 768);
     videoUniverso.load("../data/universo.mp4");
     videoUniverso.play();
+    musicaCena.load("../data/universo.mp3");
 }
 
 void CenaUniverso::update( float dt ) {
@@ -25,20 +26,21 @@ void CenaUniverso::update( float dt ) {
 void CenaUniverso::filtraImg() {
     qtdBlur = timeElapsed*8;
     ku->brilhoKinect = timeElapsed*7;
-    ofSetColor(255,255,255);
+    ku->depthCam.dilate();
+    ofSetColor(255,255,255, 255);
     videoUniverso.update();
     fboUniverso.begin();
     ofClear(0,0,0, 0);
     videoUniverso.draw(0,0,1024,768);
     fboUniverso.end();
 
-    ofSetColor(255,255,255);
+    ofSetColor(255,255,255,255);
     fboCena.begin();
     ofClear(0,0,0, 0);
-    ofSetColor(255,255,255);
+    ofSetColor(255,255,255,255);
     shaderCena.begin();
     shaderCena.setUniformTexture("texture1", fboUniverso.getTextureReference(), 1);
-    ofSetColor(255,255,255);
+    ofSetColor(255,255,255,255);
     ku->drawImg();
     shaderCena.end();
 
@@ -46,7 +48,7 @@ void CenaUniverso::filtraImg() {
 }
 
 void CenaUniverso::drawAtivo() {
-    ofSetColor(255,255,255);
+    ofSetColor(255,255,255,255);
     fboCena.draw(0,0,1024,768);
 }
 

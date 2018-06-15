@@ -8,6 +8,7 @@ CenaAgua::CenaAgua( KinectUtils *kutils, bool ativo ) {
     qtdBlur = 15;
     qtdRastro = 0;
     shaderCena.load("../data/vertexdummy.c","../data/aguaShader.c");
+    musicaCena.load("../data/aguas.mp3");
 }
 
 void CenaAgua::update( float dt ) {
