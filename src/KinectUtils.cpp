@@ -46,7 +46,7 @@ void KinectUtils::setup() {
 void KinectUtils::drawImg(bool espelho) {
     fboImgCam.begin();
     ofClear(0,0,0,0);
-    depthCam.mirror(false, !espelho);
+    depthCam.mirror(false, espelho);
     depthCam.draw(0,0,1024,768);
     fboImgCam.end();
 

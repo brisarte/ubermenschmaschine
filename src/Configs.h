@@ -22,7 +22,6 @@ class Configs: public ofBaseApp {
         CenaAgua*       cenaAgua;
         CenaRaizes*     cenaRaizes; 
         CenaBorboleta*  cenaBorboleta;
-        CenaSol*        cenaSol;
         CenaSilhueta*   cenaSilhueta;
         CenaUniverso*   cenaUniverso;
         CenaNascendo*   cenaNascendo;

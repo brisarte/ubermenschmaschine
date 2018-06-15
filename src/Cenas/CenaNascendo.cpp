@@ -52,3 +52,7 @@ void CenaNascendo::drawConfigs() {
 
     ImGui::End();
 }
+
+void CenaNascendo::limpaCena() {
+    video.setPosition(0);
+}

@@ -28,7 +28,7 @@ void CenaCorpos::filtraImg() {
     fboCena.begin();
     ofClear(0,0,0, 0);
     ofSetColor(255,255,255, 255);
-    video.draw(0,0,1024,768);
+    video.draw(ku->centroMassa.x*1024-512,0,1024,768);
     fboCena.end();
 }
 
@@ -47,9 +47,13 @@ void CenaCorpos::drawTransicao() {
 void CenaCorpos::drawConfigs() {
     // Inicia a janela de configs
     ImGui::SetNextWindowSize(ofVec2f(330, 250), ImGuiSetCond_FirstUseEver);
-    ImGui::Begin("Borboleta");
+    ImGui::Begin("Corpos");
 
     ImGui::SliderFloat("duração", &tempoMaximo, 0, 120);
 
     ImGui::End();
+}
+
+void CenaCorpos::limpaCena() {
+    video.setPosition(0);
 }

@@ -29,7 +29,7 @@ void CenaRaizes::update( float dt ) {
             if( active && timeElapsed > i*2 && videosRaiz.size() < i+1 ) {
                 adicionaRaiz(i);
             }
-            if( active && timeElapsed > i + 10 && videosFlor.size() < i+1 ) {
+            if( active && timeElapsed > i*2 + 9 && videosFlor.size() < i+1 ) {
                 adicionaFlor(i);
             }
         }
@@ -55,6 +55,11 @@ void CenaRaizes::adicionaFlor(int i) {
     videoFlor->inicio.set( ofRandom( -10*i-100, 10*i+100), ofRandom(-10*i, -26*i) );
     videoFlor->rotacao =  ofRandom( -40, 40);
     videosFlor.push_back(videoFlor);
+}
+
+void CenaRaizes::limpaCena() {
+    videosFlor.clear();
+    videosRaiz.clear();
 }
 
 void CenaRaizes::filtraImg() {

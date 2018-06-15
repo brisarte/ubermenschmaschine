@@ -51,3 +51,7 @@ void CenaAbismo::drawConfigs() {
 
     ImGui::End();
 }
+
+void CenaAbismo::limpaCena() {
+    video.setPosition(0);
+}

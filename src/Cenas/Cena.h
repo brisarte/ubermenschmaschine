@@ -85,6 +85,7 @@ class CenaRaizes : public Cena {
         void drawAtivo();
         void drawTransicao();
         void drawConfigs();
+		void limpaCena();
 		void adicionaRaiz(int i);
 		void adicionaFlor(int i);
 
@@ -92,6 +93,14 @@ class CenaRaizes : public Cena {
 
         vector<VideoRaiz*> videosRaiz;
         vector<VideoRaiz*> videosFlor;
+};
+
+class Borboleta {
+	public:
+        Borboleta(float x = 0, float y = 0);
+		ofVideoPlayer video;
+		ofVec2f posBorboleta;
+        ofImage imgBorboleta;
 };
 
 class CenaBorboleta : public Cena {
@@ -102,11 +111,15 @@ class CenaBorboleta : public Cena {
         void drawAtivo();
         void drawTransicao();
         void drawConfigs();
+		void limpaCena();
+		void criaBorboletas();
+
+        ofShader shaderSilhueta;
+        ofFbo    fboFundo;
+
+        vector<Borboleta*> panapana;
 
         ofVideoPlayer fundo;
-        ofVideoPlayer borboleta;
-        ofImage imgBorboleta;
-        ofVec2f posBorboleta;
 };
 
 class CenaAbismo : public Cena {
@@ -117,6 +130,7 @@ class CenaAbismo : public Cena {
         void drawAtivo();
         void drawTransicao();
         void drawConfigs();
+		void limpaCena();
 
         ofVideoPlayer video;
 };
@@ -129,6 +143,7 @@ class CenaNascendo : public Cena {
         void drawAtivo();
         void drawTransicao();
         void drawConfigs();
+		void limpaCena();
 
         ofVideoPlayer video;
 };
@@ -141,18 +156,9 @@ class CenaCorpos : public Cena {
         void drawAtivo();
         void drawTransicao();
         void drawConfigs();
+		void limpaCena();
 
         ofVideoPlayer video;
-};
-
-class CenaSol : public Cena {
-    public:
-        CenaSol(KinectUtils *kutils, bool ativo = true);
-        void filtraImg();
-        void update( float dt );
-        void drawAtivo();
-        void drawTransicao();
-        void drawConfigs();
 };
 
 class Particula {
@@ -194,6 +200,7 @@ class CenaUniverso : public Cena {
         void drawAtivo();
         void drawTransicao();
         void drawConfigs();
+        void limpaCena();
 
         ofVideoPlayer videoUniverso;
         ofFbo fboUniverso;

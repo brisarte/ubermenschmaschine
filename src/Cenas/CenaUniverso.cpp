@@ -2,8 +2,8 @@
 
 CenaUniverso::CenaUniverso( KinectUtils *kutils, bool ativo ) {
     setup(kutils, ativo);
-    tempoMaximo = 26;
-    tempoTransicao = 0.1;
+    tempoMaximo = 30;
+    tempoTransicao = 4;
     qtdBlur = 0;
     qtdRastro = 0;
     shaderCena.load("../data/vertexdummy.c","../data/filterTexture.c");
@@ -24,13 +24,17 @@ void CenaUniverso::update( float dt ) {
 }
 
 void CenaUniverso::filtraImg() {
-    qtdBlur = timeElapsed*8;
-    ku->brilhoKinect = timeElapsed*7;
-    ku->depthCam.dilate();
+    qtdBlur = timeElapsed*4+1;
+    ku->contrasteKinect = 50;
+    ku->brilhoKinect = timeElapsed*5;
+    for(int i = 0; i < timeElapsed*6; i++) {
+        ku->depthCam.dilate();
+    }
     ofSetColor(255,255,255, 255);
     videoUniverso.update();
     fboUniverso.begin();
     ofClear(0,0,0, 0);
+    ofSetColor(255,255,255, 255);
     videoUniverso.draw(0,0,1024,768);
     fboUniverso.end();
 
@@ -69,4 +73,8 @@ void CenaUniverso::drawConfigs() {
     ImGui::SliderInt("rastro", &qtdRastro, 0, 100);
 
     ImGui::End();
+}
+
+void CenaUniverso::limpaCena() {
+    videoUniverso.setPosition(0);
 }

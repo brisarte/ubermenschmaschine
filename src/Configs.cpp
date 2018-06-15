@@ -86,6 +86,12 @@ void Configs::resetMoksha() {
     cenas[cenaAtual]->desligaCena(false);
     this->cenas[0]->setAtivo(true);
     this->cenaAtual = 0;
+    cenaRaizes->limpaCena();
+    cenaCorpos->limpaCena();
+    cenaBorboleta->limpaCena();
+    cenaNascendo->limpaCena();
+    cenaUniverso->limpaCena();
+    cenaAbismo->limpaCena();
     ku.brilhoKinect = 0;
     ku.contrasteKinect = 100;
 }
