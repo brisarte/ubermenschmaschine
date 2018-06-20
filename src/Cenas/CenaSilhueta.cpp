@@ -14,8 +14,8 @@ void Particula::update(float dt, ofVec2f aceleracao) {
     if ( pos.y > 768 ) {
         velocidade.set( ofRandom(-20, 20) , -velocidade.y/2 );
     }
-    //cor.setHue( cor.getHue() + dt*100 );
-    cor.setBrightness( cor.getBrightness() - dt*15 );
+    cor.setHue( cor.getHue() + dt*100 );
+    //cor.setBrightness( cor.getBrightness() - dt*15 );
 }
 
 void Particula::draw() {
@@ -25,13 +25,14 @@ void Particula::draw() {
 
 CenaSilhueta::CenaSilhueta( KinectUtils *kutils, bool ativo ) {
     setup(kutils, ativo);
-    tempoMaximo = 20;
+    tempoMaximo = 51;
     tempoTransicao = 4;
-    qtdBlur = 37;
-    qtdRastro = 80;
-    gravidade = 200;
+    qtdBlur = 5;
+    qtdRastro = 20;
+    gravidade = 300;
     posEgo.set(10,300);
     aceleracaoEgo.set(10,0);
+    musicaCena.load("../data/audio/silhueta.mp3");
 }
 
 void CenaSilhueta::update( float dt ) {
@@ -54,10 +55,14 @@ void CenaSilhueta::update( float dt ) {
         if( timeElapsed < (tempoMaximo - 2) ) {
             int espacoLimite = timeElapsed*4 + 100;
 
-            posEgo.x += aceleracaoEgo.x/100 * (sin(timeElapsed*4)+0.8);
+            int mudancaMovimento = aceleracaoEgo.x/70;
             // Faz a sombra ~dançar
-            posEgo.x += (ofNoise(timeElapsed*5)-0.5)*10;
-            posEgo.x += (ofNoise(timeElapsed*3)-0.5)*12;
+            int mudancaDanca = (ofNoise(timeElapsed*5)-0.5)*(timeElapsed/2);
+            mudancaDanca += (ofNoise(timeElapsed*3)-0.5)*timeElapsed;
+            mudancaDanca += (sin(timeElapsed*9)-0.5)*(timeElapsed/2);
+            
+            posEgo.x += (mudancaMovimento) + (mudancaDanca);
+
             if(posEgo.x < espacoLimite) {
                 posEgo.x = espacoLimite;
             }
@@ -66,8 +71,8 @@ void CenaSilhueta::update( float dt ) {
             }
         } else {
             posEgo.x = ofLerp( posEgo.x, ku->centroMassa.x*1024, 0.02);
-            if(abs(distanciaEgo) < 20) {
-                posEgo.x = ofLerp( posEgo.x, ku->centroMassa.x*1024, 0.02);
+            if(abs(distanciaEgo) < 50) {
+                posEgo.x = ofLerp( posEgo.x, ku->centroMassa.x*1024, 0.04);
             }
             if(tempoMaximo < timeElapsed) {
                 setTransicao(true);
@@ -144,12 +149,14 @@ void CenaSilhueta::drawConfigs() {
     // Inicia a janela de configs
     ImGui::SetNextWindowSize(ofVec2f(330, 250), ImGuiSetCond_FirstUseEver);
     ImGui::Begin("Silhueta");
+    ImGui::SliderFloat("posicao Sombra", &posEgo.x, 0, 1024);
 
-    ImGui::SliderFloat("duração", &tempoMaximo, 0, 120);
     ImGui::SliderInt("blur", &qtdBlur, 0, 120);
     ImGui::SliderInt("rastro", &qtdRastro, 0, 100);
 
+
     ImGui::SliderInt("gravidade", &gravidade, -100, 700);
+    ImGui::SliderFloat("duração", &tempoMaximo, 0, 120);
 
     ImGui::End();
 }

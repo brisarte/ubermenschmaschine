@@ -22,6 +22,9 @@ void KinectUtils::calculaMassa() {
     centroMassa.y = centroMassa.y/480;
     depthAvg = depthTotal / qtdMedia;
 }
+void KinectUtils::loadMask() {
+    maskImg.load("../data/mask.png");
+}
 
 void KinectUtils::setup() {
 
@@ -36,8 +39,12 @@ void KinectUtils::setup() {
 
     // Aloca espaço pra imagem grayScale
     depthCam.allocate(640,480);
+    maskCam.allocate(640,480);
     floatDepth.allocate(640,480);
     videoDemo.load("../data/depthdance.mp4");
+    maskImg.load("../data/mask.png");
+    maskColorImg.setFromPixels(maskImg.getPixels());
+    maskCam = maskColorImg;
     videoDemo.play();
 
     fboImgCam.allocate(1024,768);
@@ -74,10 +81,13 @@ void KinectUtils::update() {
     // Passa pixel a pixel processando por uma floatImg
     ofFloatPixels & pixF = floatDepth.getFloatPixelsRef();
     ofPixels & pixA = depthCam.getPixels();
+    ofPixels & pixM = maskCam.getPixels();
     int numPixels = pixF.size();
     for (int i = 0; i < numPixels; i++) {
         // Aplica o Rastro
         pixF[i] = pixF[i] *((float)rastro/100) + (float)pixA[i]/255 * (1. - (float)rastro/100);
+        // Aplica a mascára
+        pixF[i] = pixF[i] * (float)pixM[i]/255;
     }
     floatDepth.flagImageChanged();
 
@@ -120,6 +130,7 @@ void KinectUtils::drawMiniatura(int x,int y,int w,int h) {
     ofSetColor( 255, 255, 255 );
     // Desenha img com filtros aplicados
     depthCam.draw( x, y, w, h);
+    //maskImg.draw( x, y, w, h);
     // Desenha centro de massa
     ofSetColor( 255, 0, 255 );
     ofDrawCircle( (centroMassa.x * w) + x, (centroMassa.y * h) + y, w/640+2);
@@ -129,6 +140,7 @@ void KinectUtils::drawGUI() {
     // Inicia a janela de infos
     ImGui::SetNextWindowSize(ofVec2f(330, 50), ImGuiSetCond_FirstUseEver);
     ImGui::Begin("Controles Kinect");
+        if (ImGui::Button("Recarregar mascara")) { loadMask(); } 
 
     // Exibe infos
     ImGui::Text("%.1f FPS (%.3f ms/frame) ", ImGui::GetIO().Framerate, 1000.0f / ImGui::GetIO().Framerate);

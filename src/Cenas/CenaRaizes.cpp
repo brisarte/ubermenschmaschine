@@ -42,7 +42,7 @@ void CenaRaizes::adicionaRaiz(int i) {
     videoRaiz->video.loadAsync(std::string("../data/raiz") + std::to_string((int)ofRandom(4)) + std::string(".mp4") );
     videoRaiz->video.setLoopState(OF_LOOP_NONE);
     videoRaiz->video.play();
-    videoRaiz->inicio.set( ofRandom( -5*i, 5*i), ofRandom(200-20*i, 100-25*i) );
+    videoRaiz->inicio.set( ofRandom( -5*i, 5*i), ofRandom(200-20*i, 100-25*i) - 100 );
     videoRaiz->rotacao =  ofRandom( -40, 40);
     videosRaiz.push_back(videoRaiz);
 }
@@ -52,7 +52,7 @@ void CenaRaizes::adicionaFlor(int i) {
     videoFlor->video.loadAsync(std::string("../data/flor") + std::to_string((int)ofRandom(2)) + std::string(".mp4") );
     videoFlor->video.setLoopState(OF_LOOP_NONE);
     videoFlor->video.play();
-    videoFlor->inicio.set( ofRandom( -10*i-100, 10*i+100), ofRandom(-10*i, -26*i) );
+    videoFlor->inicio.set( ofRandom( -10*i-100, 10*i+100), ofRandom(-10*i, -26*i) - 100 );
     videoFlor->rotacao =  ofRandom( -40, 40);
     videosFlor.push_back(videoFlor);
 }

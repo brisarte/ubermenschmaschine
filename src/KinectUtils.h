@@ -16,7 +16,11 @@ class KinectUtils {
         // Funções de controle liga/desliga
         void ligaKinect();
         void desligaKinect();
+        void loadMask();
         ofxCvGrayscaleImage depthCam;
+        ofImage maskImg;
+        ofxCvColorImage maskColorImg;
+        ofxCvGrayscaleImage maskCam;
 		ofxCvFloatImage floatDepth;
 
         ofFbo fboImgCam;

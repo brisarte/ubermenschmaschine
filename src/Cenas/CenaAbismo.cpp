@@ -26,7 +26,7 @@ void CenaAbismo::filtraImg() {
     fboCena.begin();
     ofClear(0,0,0, 0);
     ofSetColor(255,255,255, 255);
-    video.draw(0,0,1024,768);
+    video.draw(ku->centroMassa.x*256-128,0,1024,768);
     fboCena.end();
 }
 

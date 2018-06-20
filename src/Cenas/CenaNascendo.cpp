@@ -27,7 +27,8 @@ void CenaNascendo::filtraImg() {
     fboCena.begin();
     ofClear(0,0,0, 0);
     ofSetColor(255,255,255, 255);
-    video.draw(0,0,1024,768);
+    float aumenta = (sin(ku->centroMassa.x*40)+1)*30;
+    video.draw(-aumenta*(2/3),-aumenta/2,1024+aumenta*(4/3),768+aumenta);
     fboCena.end();
 }
 

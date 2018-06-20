@@ -116,6 +116,7 @@ class CenaBorboleta : public Cena {
 
         ofShader shaderSilhueta;
         ofFbo    fboFundo;
+        ofFbo    fboSilhueta;
 
         vector<Borboleta*> panapana;
 
@@ -204,5 +205,6 @@ class CenaUniverso : public Cena {
 
         ofVideoPlayer videoUniverso;
         ofFbo fboUniverso;
+        ofFbo fboSilhueta;
 };
 

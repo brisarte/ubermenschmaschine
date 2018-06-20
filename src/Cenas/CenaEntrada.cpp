@@ -7,7 +7,7 @@ CenaEntrada::CenaEntrada( KinectUtils *kutils, bool ativo ) {
     qtdBlur = 0;
     qtdRastro = 0;
 
-    massaMaxima = 70000;
+    massaMaxima = 85000;
     shaderCena.load("../data/vertexdummy.c","../data/silhuetaInvertida.c");
     shaderFiltraImg.load("../data/vertexdummy.c","../data/filterTexture.c");
     imgCarne.load("../data/carne.png");

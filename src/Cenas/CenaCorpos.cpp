@@ -2,7 +2,7 @@
 
 CenaCorpos::CenaCorpos( KinectUtils *kutils, bool ativo ) {
     setup(kutils, ativo);
-    tempoMaximo = 110;
+    tempoMaximo = 83;
     tempoTransicao = 0.1;
     shaderCena.load("../data/vertexdummy.c","../data/greenAsTransparent.c");
 

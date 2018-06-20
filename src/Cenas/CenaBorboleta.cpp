@@ -11,7 +11,7 @@ Borboleta::Borboleta(float x, float y) {
 
 CenaBorboleta::CenaBorboleta( KinectUtils *kutils, bool ativo ) {
     setup(kutils, ativo);
-    tempoMaximo = 140;
+    tempoMaximo = 138;
     tempoTransicao = 0.1;
     shaderCena.load("../data/vertexdummy.c","../data/greenAsTransparent.c");
 
@@ -30,6 +30,7 @@ void CenaBorboleta::criaBorboletas() {
     Borboleta* borboleta5 = new Borboleta(800, -500);
     Borboleta* borboleta6 = new Borboleta(2000, 500);
     Borboleta* borboleta7 = new Borboleta(-1000, 500);
+    Borboleta* borboleta8 = new Borboleta(-500, 500);
     panapana.push_back(borboleta1);
     panapana.push_back(borboleta2);
     panapana.push_back(borboleta3);
@@ -37,6 +38,7 @@ void CenaBorboleta::criaBorboletas() {
     panapana.push_back(borboleta5);
     panapana.push_back(borboleta6);
     panapana.push_back(borboleta7);
+    panapana.push_back(borboleta8);
 }
 
 void CenaBorboleta::update( float dt ) {
@@ -45,7 +47,7 @@ void CenaBorboleta::update( float dt ) {
 
         for( int i = 0; i < panapana.size(); i++ ) {
             panapana[i]->video.setPaused(false);
-            panapana[i]->posBorboleta.x = ofLerp(panapana[i]->posBorboleta.x, ku->centroMassa.x*1024 + (ofNoise((timeElapsed*i)/3)-0.5)*2000, 0.01);
+            panapana[i]->posBorboleta.x = ofLerp(panapana[i]->posBorboleta.x, ku->centroMassa.x*1024 + (ofNoise((timeElapsed*i)/3)-0.5)*2000, 0.05);
             panapana[i]->posBorboleta.y = ofLerp(panapana[i]->posBorboleta.y, 200 - (ofNoise(timeElapsed/(i+1))-0.5)*800 , 0.1);
         }
 
@@ -85,10 +87,12 @@ void CenaBorboleta::filtraImg() {
     
     shaderSilhueta.begin();
     shaderSilhueta.setUniformTexture("texture1", fboFundo.getTextureReference(), 1);
-    ku->depthCam.draw(0,0,1024,768);
+    shaderSilhueta.setUniformTexture("kinecto", ku->fboImgCam.getTextureReference(), 2);
+    ku->drawImg();
     shaderSilhueta.end();
     
     shaderCena.begin();
+    ofSetColor(255,255,255);
     for( int i = 0; i < panapana.size(); i++ ) {
         panapana[i]->imgBorboleta.setFromPixels( panapana[i]->video.getPixels());
         if( panapana[i]->posBorboleta.x > ku->centroMassa.x*1024 ) {
@@ -98,11 +102,9 @@ void CenaBorboleta::filtraImg() {
             panapana[i]->imgBorboleta.mirror(true, false);
         }
         if(timeElapsed < 100) {
-            panapana[i]->imgBorboleta.draw( panapana[i]->posBorboleta.x - 128 , panapana[i]->posBorboleta.y - 80 , 512,384);
-            cout << "\ndesenhou " << i << " em [" <<  panapana[i]->posBorboleta.x - 128 << "," << panapana[i]->posBorboleta.y  << "]"; 
+            panapana[i]->imgBorboleta.draw( panapana[i]->posBorboleta.x - 178 , panapana[i]->posBorboleta.y - 128 , 341,256);
         }
     }
-    ofSetColor(255,255,255);
     shaderCena.end();
     fboCena.end();
 }
