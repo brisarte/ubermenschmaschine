@@ -1,4 +1,4 @@
-##Moksha - uma experiência solo
+## Moksha - uma experiência solo
 
 Instalação Interativa por Daniela Peixoto e Danielle Rheder
 
